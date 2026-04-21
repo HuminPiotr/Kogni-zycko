@@ -1,0 +1,129 @@
+@import 'tailwindcss';
+
+@theme {
+  /* === PALETTE === */
+  --color-sky-blue: #5568af;
+  --color-aqua: #ceeaee;
+  --color-lime: #cdd629;
+  --color-electric-rose: #ec1763;
+  --color-blush: #f8c9dd;
+  --color-sunset: #f37826;
+
+  /* === SURFACES === */
+  --color-canvas: #faf5e0;
+  --color-surface: #ffffff;
+  --color-surface-warm: #fff8f0;
+
+  /* === BORDERS === */
+  --color-border-cartoon: #1a1a1a;
+  --color-border-subtle: #e8e0d0;
+  --color-sticker-glow: #ffffff;
+
+  /* === TEXT === */
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #5568af;
+  --color-text-disabled: #b0a8c0;
+  --color-text-on-dark: #faf5e0;
+
+  /* === BRAIN STRUCTURES === */
+  --color-amygdala: #ec1763;
+  --color-pfc: #5568af;
+  --color-caudate: #cdd629;
+  --color-hippocampus: #ceeaee;
+  --color-insula: #f8c9dd;
+  --color-thalamus: #f37826;
+
+  /* === RESOURCES === */
+  --color-resource-energy: #cdd629;
+  --color-resource-mood: #f8c9dd;
+  --color-resource-willpower: #5568af;
+
+  /* === RESOURCE STATES === */
+  --color-state-good: #cdd629;
+  --color-state-warning: #f37826;
+  --color-state-critical: #ec1763;
+
+  /* === CARTOON SHADOWS === */
+  --shadow-cartoon-s: 2px 2px 0px #1a1a1a;
+  --shadow-cartoon-m: 4px 4px 0px #1a1a1a;
+  --shadow-cartoon-l: 6px 6px 0px #1a1a1a;
+
+  /* === TYPOGRAPHY === */
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Nunito', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Polka dots tło (desing-guide sek. 7) */
+.bg-polka {
+  background-image: radial-gradient(
+    circle,
+    rgba(45, 43, 62, 0.08) 2px,
+    transparent 2.5px
+  );
+  background-size: 28px 28px;
+}
+
+/* Ukośne paski — hazardowy wzór dla kart darmowych (sek. 5.1) */
+.bg-hazard-rose {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-electric-rose) 0 10px,
+    #ffd9e4 10px 20px
+  );
+}
+.bg-hazard-sunset {
+  background-image: repeating-linear-gradient(
+    45deg,
+    var(--color-sunset) 0 10px,
+    #ffd9b5 10px 20px
+  );
+}
+
+/* Sticker effect — biała poświata wokół postaci/avatara */
+.sticker {
+  box-shadow:
+    0 0 0 3px var(--color-sticker-glow),
+    0 0 0 5px var(--color-border-cartoon);
+}
+
+/* Nagłówki — font display */
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.animate-slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes flashGreen {
+  0%, 100% { background-color: transparent; }
+  30%       { background-color: rgba(205, 214, 41, 0.45); }
+}
+@keyframes flashRed {
+  0%, 100% { background-color: transparent; }
+  30%       { background-color: rgba(236, 23, 99, 0.35); }
+}
+.flash-green { animation: flashGreen 1.5s ease-out; }
+.flash-red   { animation: flashRed   1.5s ease-out; }
