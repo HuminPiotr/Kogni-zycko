@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import type { UseGameState } from '@/game/useGameState';
 import { StatusBar } from '@/components/StatusBar';
 import { SceneView } from '@/components/SceneView';
 import { DecisionDeck } from '@/components/DecisionDeck';
 import { RevealPanel } from '@/components/RevealPanel';
+import { SilentPanel } from '@/components/SilentPanel';
+import { VoicesInline } from '@/components/VoicesInline';
+import { StatsSheet } from '@/components/StatsSheet';
+import { Button } from '@/components/ui/Button';
 
 interface Props {
   game: UseGameState;
@@ -10,60 +15,78 @@ interface Props {
 
 export function GameScreen({ game }: Props) {
   const { state, currentEvent, chooseDecision, advanceTurn } = game;
+  const [showStats, setShowStats] = useState(false);
 
   const lastDecision =
     state.lastDecisionId && currentEvent
-      ? currentEvent.decisions.find((d) => d.id === state.lastDecisionId) ?? null
+      ? (currentEvent.decisions ?? []).find((d) => d.id === state.lastDecisionId) ?? null
       : null;
 
   return (
-    <div className="min-h-screen bg-canvas bg-polka flex flex-col">
-      <StatusBar player={state.player} resources={state.resources} />
+    <div className="h-dvh bg-canvas bg-polka flex items-stretch justify-center">
+      <div className="w-full max-w-sm flex flex-col overflow-hidden">
+        <StatusBar
+          player={state.player}
+          resources={state.resources}
+          onStatsClick={() => setShowStats(true)}
+        />
 
-      <main className="flex-1 mx-auto max-w-5xl w-full px-4 py-6 space-y-6">
-        {currentEvent ? (
-          <>
-            <SceneView event={currentEvent} />
-
-            {state.phase === 'scene' && (
-              <DecisionDeck
-                decisions={currentEvent.decisions}
-                resources={state.resources}
-                onPick={chooseDecision}
-              />
-            )}
-
-            {state.phase === 'reveal' && lastDecision && (
-              <RevealPanel
-                decision={lastDecision}
-                deltas={state.lastDeltas}
-                onAdvance={advanceTurn}
-              />
-            )}
-          </>
+        {state.phase === 'silent' && currentEvent ? (
+          <SilentPanel event={currentEvent} onAdvance={advanceTurn} />
         ) : (
-          <EmptyYear onAdvance={advanceTurn} />
-        )}
-      </main>
+          <main className="flex-1 flex flex-col overflow-hidden px-3 py-2 gap-3 min-h-0">
+            {currentEvent ? (
+              <>
+                {/* scene + voices: fills available space, voices scroll internally */}
+                <div className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto">
+                  <SceneView event={currentEvent} />
+                  <VoicesInline
+                    voices={currentEvent.voices ?? []}
+                    eventId={currentEvent.id}
+                  />
+                </div>
 
-      <footer className="mx-auto max-w-5xl w-full px-4 py-3 text-xs font-mono opacity-60 flex items-center justify-between">
-        <span>Flagi: {state.flags.length > 0 ? state.flags.join(', ') : '—'}</span>
-        <span>Odegrane: {state.eventLog.length}</span>
-      </footer>
+                {/* deck: fixed height — never changes regardless of voices */}
+                <div className="shrink-0 h-[42vh]">
+                  <DecisionDeck
+                    decisions={currentEvent.decisions ?? []}
+                    resources={state.resources}
+                    onPick={chooseDecision}
+                  />
+                </div>
+              </>
+            ) : (
+              <EmptyYear onAdvance={advanceTurn} />
+            )}
+          </main>
+        )}
+
+        <StatsSheet
+          player={state.player}
+          resources={state.resources}
+          lastDeltas={state.lastDeltas}
+          open={showStats}
+          onClose={() => setShowStats(false)}
+        />
+
+        <RevealPanel
+          open={state.phase === 'reveal'}
+          decision={lastDecision}
+          deltas={state.lastDeltas}
+          onAdvance={advanceTurn}
+        />
+      </div>
     </div>
   );
 }
 
 function EmptyYear({ onAdvance }: { onAdvance: () => void }) {
   return (
-    <section className="bg-surface border-2 border-border-cartoon rounded-xl p-6 shadow-cartoon-m space-y-4 text-center">
-      <p className="text-lg">Rok minął bez szczególnych zdarzeń. Życie toczy się dalej.</p>
-      <button
-        className="font-display uppercase text-sm px-5 py-2 bg-electric-rose text-white border-2 border-border-cartoon shadow-cartoon-s"
-        onClick={onAdvance}
-      >
+    <div className="flex-1 flex flex-col items-center justify-center px-6 gap-6 text-center">
+      <p className="text-lg opacity-60">Rok minął bez szczególnych zdarzeń.</p>
+      <Button variant="secondary" onClick={onAdvance} className="w-full max-w-sm justify-center">
         Następny rok →
-      </button>
-    </section>
+      </Button>
+    </div>
   );
 }

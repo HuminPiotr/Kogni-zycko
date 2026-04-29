@@ -28,18 +28,23 @@ export function validateEvents(events: GameEvent[]): ValidationIssue[] {
       });
     }
 
-    if (ev.decisions.length !== 3 && ev.type !== 'crisis' && ev.type !== 'rescue') {
+    if (
+      ev.type !== 'silent' &&
+      (ev.decisions ?? []).length !== 3 &&
+      ev.type !== 'crisis' &&
+      ev.type !== 'rescue'
+    ) {
       issues.push({
         level: 'warning',
         eventId: ev.id,
-        message: `Event normal ma ${ev.decisions.length} decyzji zamiast 3 (PRD sek. 3.5).`,
+        message: `Event normal ma ${(ev.decisions ?? []).length} decyzji zamiast 3 (PRD sek. 3.5).`,
       });
     }
 
     // Crisis musi mieć kartę ratunkową (PRD sek. 3.7).
     if (ev.type === 'crisis') {
-      const hasRescue = ev.decisions.some((d) => d.isRescueCard);
-      const hasDeath = ev.decisions.some((d) => d.isDeathCard);
+      const hasRescue = (ev.decisions ?? []).some((d) => d.isRescueCard);
+      const hasDeath = (ev.decisions ?? []).some((d) => d.isDeathCard);
       if (!hasRescue) {
         issues.push({
           level: 'error',
@@ -56,32 +61,36 @@ export function validateEvents(events: GameEvent[]): ValidationIssue[] {
       }
     }
 
-    for (const d of ev.decisions) {
-      if (!ALL_STRUCTURE_NAMES.includes(d.hiddenStructure)) {
-        issues.push({
-          level: 'error',
-          eventId: ev.id,
-          message: `Decyzja ${d.id}: nieznana hiddenStructure "${d.hiddenStructure}".`,
-        });
-      }
-      if (d.cost && d.cost.amount < 0) {
-        issues.push({
-          level: 'error',
-          eventId: ev.id,
-          message: `Decyzja ${d.id}: cost.amount nie może być ujemny.`,
-        });
-      }
-      (d.setsFlags ?? []).forEach((f) => setFlags.add(f));
-      (d.clearsFlags ?? []).forEach((f) => usedFlags.add(f));
-    }
+    (ev.setsFlags ?? []).forEach((f) => setFlags.add(f));
 
-    for (const v of ev.voices) {
-      if (!ALL_STRUCTURE_NAMES.includes(v.structure)) {
-        issues.push({
-          level: 'error',
-          eventId: ev.id,
-          message: `Voice: nieznana struktura "${v.structure}".`,
-        });
+    if (ev.type !== 'silent') {
+      for (const d of ev.decisions ?? []) {
+        if (!ALL_STRUCTURE_NAMES.includes(d.hiddenStructure)) {
+          issues.push({
+            level: 'error',
+            eventId: ev.id,
+            message: `Decyzja ${d.id}: nieznana hiddenStructure "${d.hiddenStructure}".`,
+          });
+        }
+        if (d.cost && d.cost.amount < 0) {
+          issues.push({
+            level: 'error',
+            eventId: ev.id,
+            message: `Decyzja ${d.id}: cost.amount nie może być ujemny.`,
+          });
+        }
+        (d.setsFlags ?? []).forEach((f) => setFlags.add(f));
+        (d.clearsFlags ?? []).forEach((f) => usedFlags.add(f));
+      }
+
+      for (const v of ev.voices ?? []) {
+        if (!ALL_STRUCTURE_NAMES.includes(v.structure)) {
+          issues.push({
+            level: 'error',
+            eventId: ev.id,
+            message: `Voice: nieznana struktura "${v.structure}".`,
+          });
+        }
       }
     }
 

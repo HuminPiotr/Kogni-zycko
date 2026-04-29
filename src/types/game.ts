@@ -20,7 +20,7 @@ export type CardType =
   | 'impulsive'
   | 'avoidant';
 
-export type EventType = 'normal' | 'crisis' | 'rescue';
+export type EventType = 'normal' | 'crisis' | 'rescue' | 'full' | 'silent' | 'turning_point';
 
 export type Flag = string; // snake_case, walidator sprawdza spójność w całej puli.
 
@@ -65,6 +65,17 @@ export interface Decision {
   isRescueCard?: boolean; // tylko w eventach crisis
 }
 
+export interface SilentImpact {
+  n?: number;
+  e?: number;
+  o?: number;
+  a?: number;
+  c?: number;
+  energy?: number;
+  mood?: number;
+  willpower?: number;
+}
+
 export interface ResourceCondition {
   resource: ResourceName;
   op: '<' | '>' | '<=' | '>=';
@@ -76,17 +87,20 @@ export interface GameEvent {
   type?: EventType; // domyślnie 'normal'
   ageRange: [number, number];
   sceneText: string;
-  voices: VoiceLine[];
-  decisions: Decision[];
+  voices?: VoiceLine[];
+  decisions?: Decision[];
   requiresFlag?: Flag;
   excludesFlag?: Flag;
   resourceCondition?: ResourceCondition;
   deathReason?: string; // używane gdy wybrana zostanie isDeathCard
+  postSceneText?: string; // tylko dla silent — neuronaukowe wyjaśnienie pod sceną
+  statImpact?: SilentImpact; // tylko dla silent — auto-aplikowane efekty
+  setsFlags?: Flag[]; // tylko dla silent — flagi ustawiane bez wyboru karty
 }
 
 // ===== Stan gry =====
 
-export type GamePhase = 'start' | 'scene' | 'reveal' | 'gameover';
+export type GamePhase = 'start' | 'scene' | 'silent' | 'reveal' | 'gameover';
 
 export interface GameState {
   phase: GamePhase;

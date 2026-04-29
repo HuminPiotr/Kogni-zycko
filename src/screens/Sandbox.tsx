@@ -110,6 +110,7 @@ export function Sandbox() {
 
         <Section title="RevealPanel">
           <RevealPanel
+            open={true}
             decision={sampleDecision}
             deltas={{ o: 3, c: -4, n: -2 }}
             onAdvance={() => alert('Następny rok')}

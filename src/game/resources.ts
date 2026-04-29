@@ -73,6 +73,17 @@ export function computeRegenDeltas(big5: Big5): Resources {
   return { energy: dEnergy, mood: dMood, willpower: dWillpower };
 }
 
+export function applyResourceDelta(
+  resources: Resources,
+  delta: { energy?: number; mood?: number; willpower?: number },
+): Resources {
+  return {
+    energy: clamp(resources.energy + (delta.energy ?? 0)),
+    mood: clamp(resources.mood + (delta.mood ?? 0)),
+    willpower: clamp(resources.willpower + (delta.willpower ?? 0)),
+  };
+}
+
 // Używane przez karty ratunkowe — reset częściowy.
 export function resetToFloor(resources: Resources, floor = 40): Resources {
   return {

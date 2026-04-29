@@ -43,15 +43,20 @@ export function selectEvent(
     if (crisis.length > 0) return pickRandom(crisis, rng);
   }
 
+  const turningPoints = eligible.filter((e) => e.type === 'turning_point');
+  if (turningPoints.length > 0) return pickRandom(turningPoints, rng);
+
   // Eventy rescue wchodzą jeśli gracz ma flagę destrukcyjną
   // i nie jest jeszcze w crisis — dają drugą szansę zanim się wali.
   const rescueEligible = eligible.filter((e) => e.type === 'rescue');
-  if (rescueEligible.length > 0 && Math.random() < 0.3) {
+  if (rescueEligible.length > 0 && rng() < 0.3) {
     return pickRandom(rescueEligible, rng);
   }
 
-  const normal = eligible.filter((e) => !e.type || e.type === 'normal');
-  if (normal.length > 0) return pickRandom(normal, rng);
+  const mainPool = eligible.filter(
+    (e) => !e.type || e.type === 'normal' || e.type === 'full' || e.type === 'silent',
+  );
+  if (mainPool.length > 0) return pickRandom(mainPool, rng);
 
   return pickRandom(eligible, rng);
 }

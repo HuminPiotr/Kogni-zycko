@@ -1,45 +1,49 @@
-import type { Player, Resources, TraitName } from '@/types/game';
+import type { Player, Resources } from '@/types/game';
 import { getEra } from '@/utils/getEra';
-import { computeRegenDeltas } from '@/game/resources';
-import { StatBar } from '@/components/StatBar';
-import { ResourceMeter } from '@/components/ResourceMeter';
 
 interface Props {
   player: Player;
   resources: Resources;
-  lastDeltas?: Partial<Record<TraitName, number>> | null;
+  onStatsClick: () => void;
 }
 
-export function StatusBar({ player, resources, lastDeltas }: Props) {
+const RESOURCE_ICON = { energy: '🔋', mood: '😊', willpower: '🧠' } as const;
+
+function resourceColor(v: number): string {
+  if (v > 60) return '#cdd629';
+  if (v >= 30) return '#f37826';
+  return '#ec1763';
+}
+
+export function StatusBar({ player, resources, onStatsClick }: Props) {
   const era = getEra(player.age);
-  const trends = computeRegenDeltas(player.big5);
 
   return (
-    <header className="bg-text-primary text-text-on-dark border-b-2 border-border-cartoon shadow-cartoon-m">
-      <div className="mx-auto max-w-5xl px-4 py-3 flex flex-wrap items-center gap-x-8 gap-y-3 justify-between">
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            <span className="font-mono text-[10px] uppercase tracking-widest opacity-60">
-              Wiek
-            </span>
-            <span className="font-display text-3xl leading-none">{player.age}</span>
-          </div>
-          <div className="flex flex-col">
-            <span className="font-mono text-[10px] uppercase tracking-widest opacity-60">
-              Era {era.roman}
-            </span>
-            <span className="font-display text-sm text-sunset">{era.name}</span>
-          </div>
-        </div>
-
-        <StatBar big5={player.big5} lastDeltas={lastDeltas} />
-
-        <div className="flex flex-wrap gap-4">
-          <ResourceMeter resource="energy" value={resources.energy} trend={trends.energy} />
-          <ResourceMeter resource="mood" value={resources.mood} trend={trends.mood} />
-          <ResourceMeter resource="willpower" value={resources.willpower} trend={trends.willpower} />
-        </div>
+    <header className="bg-text-primary text-text-on-dark px-4 py-2 flex items-center justify-between gap-3 shrink-0 border-b-2 border-border-cartoon">
+      <div className="flex items-baseline gap-2 min-w-0">
+        <span className="font-display text-3xl leading-none">{player.age}</span>
+        <span className="font-body text-xs opacity-60 truncate">{era.name}</span>
       </div>
+
+      <div className="flex items-center gap-3">
+        {(['energy', 'mood', 'willpower'] as const).map((r) => (
+          <span
+            key={r}
+            className="font-mono text-sm font-bold"
+            style={{ color: resourceColor(resources[r]) }}
+          >
+            {RESOURCE_ICON[r]}{resources[r]}
+          </span>
+        ))}
+      </div>
+
+      <button
+        onClick={onStatsClick}
+        className="font-mono text-xs px-2 py-1 border border-text-on-dark/30 rounded opacity-60 hover:opacity-100 shrink-0"
+        aria-label="Statystyki"
+      >
+        📊
+      </button>
     </header>
   );
 }

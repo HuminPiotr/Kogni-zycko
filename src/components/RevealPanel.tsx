@@ -1,9 +1,11 @@
-import type { Decision, TraitName } from '@/types/game';
+import type { Decision, StructureName, TraitName } from '@/types/game';
 import { STRUCTURES } from '@/data/structures';
 import { Button } from '@/components/ui/Button';
+import { BottomSheet } from '@/components/BottomSheet';
 
 interface Props {
-  decision: Decision;
+  open: boolean;
+  decision: Decision | null;
   deltas: Partial<Record<TraitName, number>> | null;
   onAdvance: () => void;
 }
@@ -16,57 +18,80 @@ const TRAIT_LABEL: Record<TraitName, string> = {
   c: 'Sumienność',
 };
 
-export function RevealPanel({ decision, deltas, onAdvance }: Props) {
+const STRUCTURE_IMAGE: Record<StructureName, string> = {
+  amygdala:    '/cialo_migdalowate.png',
+  pfc:         '/kora_przedczolowa.png',
+  caudate:     '/jadro_ogoniaste.png',
+  hippocampus: '/hipokamp.png',
+  thalamus:    '/uklad_dopaminowy.png',
+  insula:      '/musk.png',
+};
+
+export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
+  if (!decision) return null;
+
   const meta = STRUCTURES[decision.hiddenStructure];
-  const deltaEntries = deltas ? (Object.keys(deltas) as TraitName[]).filter((t) => deltas[t]) : [];
+  const imgSrc = STRUCTURE_IMAGE[decision.hiddenStructure];
+  const deltaEntries = deltas
+    ? (Object.keys(deltas) as TraitName[]).filter((t) => deltas[t])
+    : [];
 
   return (
-    <section
-      className="animate-slide-up border-[3px] rounded-xl bg-surface p-5 shadow-cartoon-m relative overflow-hidden"
-      style={{ borderColor: meta.color }}
-    >
+    <BottomSheet open={open} maxHeight="90vh">
       <div
-        className="absolute top-0 right-0 px-4 py-2 font-display uppercase text-xs border-l-2 border-b-2 border-border-cartoon"
-        style={{ backgroundColor: meta.color, color: '#1A1A2E' }}
+        className="border-t-8 relative"
+        style={{
+          borderColor: meta.color,
+          backgroundImage: `url(${imgSrc})`,
+          backgroundSize: 'contain',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center top',
+        }}
       >
-        Odsłonięcie struktury
+        {/* Semi-transparent overlay so text stays readable */}
+        <div className="absolute inset-0 bg-white/80" />
+
+        {/* Content above background */}
+        <div className="relative px-5 pt-5 pb-8 space-y-4">
+          <div
+            className="inline-block px-3 py-1 font-display text-[10px] uppercase tracking-widest border-2 border-border-cartoon"
+            style={{ backgroundColor: meta.color, color: '#1A1A2E' }}
+          >
+            Odsłonięcie struktury
+          </div>
+
+          <div>
+            <h3 className="font-display text-2xl">{meta.label}</h3>
+            <p className="text-xs opacity-60 mt-0.5">{meta.role}</p>
+          </div>
+
+          <p className="text-base leading-relaxed">{decision.flavorReveal}</p>
+
+          {deltaEntries.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {deltaEntries.map((t) => {
+                const d = deltas![t]!;
+                const sign = d > 0 ? '+' : '';
+                return (
+                  <span
+                    key={t}
+                    className={`font-mono text-xs px-2 py-1 border-2 border-border-cartoon rounded ${
+                      d > 0 ? 'bg-lime' : 'bg-electric-rose text-white'
+                    }`}
+                    title={TRAIT_LABEL[t]}
+                  >
+                    {t.toUpperCase()} {sign}{d}
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
+          <Button variant="primary" onClick={onAdvance} className="w-full justify-center">
+            Następny rok →
+          </Button>
+        </div>
       </div>
-
-      <h3 className="font-display text-2xl mb-1">{meta.label}</h3>
-      <p className="text-sm opacity-70 mb-4">{meta.role}</p>
-
-      <p className="text-base leading-relaxed mb-4">{decision.flavorReveal}</p>
-
-      {deltaEntries.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-5">
-          {deltaEntries.map((t) => {
-            const d = deltas![t]!;
-            const sign = d > 0 ? '+' : '';
-            return (
-              <span
-                key={t}
-                className={`
-                  font-mono text-xs px-2 py-1 border-2 border-border-cartoon rounded
-                  ${d > 0 ? 'bg-lime' : 'bg-electric-rose text-white'}
-                `}
-                title={TRAIT_LABEL[t]}
-              >
-                {t.toUpperCase()} {sign}{d}
-              </span>
-            );
-          })}
-        </div>
-      )}
-
-      {decision.setsFlags && decision.setsFlags.length > 0 && (
-        <div className="mb-3 text-xs font-mono opacity-70">
-          Nowe flagi: {decision.setsFlags.join(', ')}
-        </div>
-      )}
-
-      <Button variant="primary" onClick={onAdvance}>
-        Następny rok →
-      </Button>
-    </section>
+    </BottomSheet>
   );
 }

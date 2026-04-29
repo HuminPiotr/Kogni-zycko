@@ -1,20 +1,27 @@
 import type { GameEvent } from '@/types/game';
-import { ChatBubble } from '@/components/ChatBubble';
 
 interface Props {
   event: GameEvent;
 }
 
 export function SceneView({ event }: Props) {
+  const isTurningPoint = event.type === 'turning_point';
+
   return (
-    <section className="space-y-4">
-      <div className="bg-surface border-2 border-border-cartoon rounded-xl p-5 shadow-cartoon-m">
-        <p className="text-lg leading-relaxed">{event.sceneText}</p>
-      </div>
-      <div className="space-y-3">
-        {event.voices.map((v, idx) => (
-          <ChatBubble key={`${event.id}-voice-${idx}`} structure={v.structure} text={v.text} />
-        ))}
+    <section
+      className={`bg-surface rounded-xl px-4 py-3 shadow-cartoon-s shrink-0 ${
+        isTurningPoint
+          ? 'border-[3px] border-sunset'
+          : 'border-2 border-border-cartoon'
+      }`}
+    >
+      {isTurningPoint && (
+        <div className="font-display text-[10px] uppercase tracking-widest text-sunset mb-1">
+          ⚡ Punkt zwrotny
+        </div>
+      )}
+      <div className="max-h-[140px] overflow-y-auto pr-1">
+        <p className="text-base leading-relaxed">{event.sceneText}</p>
       </div>
     </section>
   );

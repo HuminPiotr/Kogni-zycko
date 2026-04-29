@@ -7,7 +7,7 @@ import type {
   Resources,
 } from '@/types/game';
 import { applyStatImpact, previewStatImpact } from '@/game/bigFive';
-import { canAfford, payCost, regenerateResources, resetToFloor } from '@/game/resources';
+import { applyResourceDelta, canAfford, payCost, regenerateResources, resetToFloor } from '@/game/resources';
 import { selectEvent } from '@/game/selectEvent';
 import { DEFAULT_DEATH_REASON } from '@/game/death';
 
@@ -42,7 +42,8 @@ function pickNextEvent(state: GameState, pool: GameEvent[]): GameState {
     // Brak eventów — pusty rok, naturalny drift z wiekiem.
     return { ...state, phase: 'scene', currentEventId: null, lastDecisionId: null };
   }
-  return { ...state, phase: 'scene', currentEventId: ev.id, lastDecisionId: null };
+  const phase = ev.type === 'silent' ? 'silent' : 'scene';
+  return { ...state, phase, currentEventId: ev.id, lastDecisionId: null };
 }
 
 // Znajdź event + decyzję po ID. Jeśli nie znaleziono → null.
@@ -54,7 +55,7 @@ function findDecision(
   if (!eventId) return null;
   const event = pool.find((e) => e.id === eventId);
   if (!event) return null;
-  const decision = event.decisions.find((d) => d.id === decisionId);
+  const decision = (event.decisions ?? []).find((d) => d.id === decisionId);
   if (!decision) return null;
   return { event, decision };
 }
@@ -134,34 +135,56 @@ export function makeReducer(pool: GameEvent[]) {
       }
 
       case 'ADVANCE_TURN': {
-        // reveal (normalnie) lub scene z pustym eventem (fallback „rok minął")
+        // reveal (normalnie), scene z pustym eventem (fallback „rok minął") lub cicha tura
         const canAdvance =
           state.phase === 'reveal' ||
-          (state.phase === 'scene' && state.currentEventId === null);
+          (state.phase === 'scene' && state.currentEventId === null) ||
+          state.phase === 'silent';
         if (!canAdvance) return state;
-        const newAge = state.player.age + 1;
-        const eventLog = state.currentEventId
-          ? [...state.eventLog, state.currentEventId]
-          : state.eventLog;
-        const regenerated = regenerateResources(state.resources, state.player.big5);
+
+        // Aplikuj efekty cichego eventu przed regeneracją
+        let workingState = state;
+        if (state.phase === 'silent' && state.currentEventId) {
+          const silentEv = pool.find((e) => e.id === state.currentEventId);
+          if (silentEv?.statImpact) {
+            const si = silentEv.statImpact;
+            const big5Impact = { n: si.n, e: si.e, o: si.o, a: si.a, c: si.c };
+            const nextPlayer = applyStatImpact(workingState.player, big5Impact);
+            const nextResources = applyResourceDelta(workingState.resources, si);
+            workingState = { ...workingState, player: nextPlayer, resources: nextResources };
+          }
+          if (silentEv?.setsFlags) {
+            const nextFlags = [...workingState.flags];
+            for (const f of silentEv.setsFlags) {
+              if (!nextFlags.includes(f)) nextFlags.push(f);
+            }
+            workingState = { ...workingState, flags: nextFlags };
+          }
+        }
+
+        const newAge = workingState.player.age + 1;
+        const eventLog = workingState.currentEventId
+          ? [...workingState.eventLog, workingState.currentEventId]
+          : workingState.eventLog;
+        const regenerated = regenerateResources(workingState.resources, workingState.player.big5);
 
         // Naturalna śmierć po 100. roku.
         if (newAge > 100) {
           return {
-            ...state,
+            ...workingState,
             eventLog,
             resources: regenerated,
-            player: { ...state.player, age: newAge },
+            player: { ...workingState.player, age: newAge },
             phase: 'gameover',
             deathReason: null, // null = naturalna śmierć
           };
         }
 
         const advanced: GameState = {
-          ...state,
+          ...workingState,
           eventLog,
           resources: regenerated,
-          player: { ...state.player, age: newAge },
+          player: { ...workingState.player, age: newAge },
           currentEventId: null,
           lastDecisionId: null,
           lastDeltas: null,
