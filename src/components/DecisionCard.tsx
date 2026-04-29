@@ -1,5 +1,11 @@
-import type { CardType, Decision, Resources } from '@/types/game';
+import type { CardType, Decision, ResourceName, Resources } from '@/types/game';
 import { canAfford } from '@/game/resources';
+
+const RESOURCE_ICON: Record<ResourceName, string> = {
+  energy: '🔋',
+  mood: '😊',
+  willpower: '🧠',
+};
 
 interface Props {
   decision: Decision;
@@ -59,9 +65,16 @@ export function DecisionCard({ decision, resources, onPick }: Props) {
 
         {/* Footer */}
         <div
-          className="px-5 py-3 border-t-2 border-border-subtle shrink-0 flex justify-center"
+          className="px-5 py-3 border-t-2 border-border-subtle shrink-0 flex items-center justify-between"
           style={{ backgroundColor: `color-mix(in srgb, ${TYPE_COLOR[decision.type]} 12%, transparent)` }}
         >
+          {decision.cost && decision.cost.amount > 0 ? (
+            <span className="font-mono text-sm font-bold" style={{ color: TYPE_COLOR[decision.type] }}>
+              {RESOURCE_ICON[decision.cost.resource]} -{decision.cost.amount}
+            </span>
+          ) : (
+            <span className="font-mono text-xs opacity-40">bezpł.</span>
+          )}
           <span className="font-display text-sm uppercase tracking-wide opacity-70">
             Wybierz →
           </span>

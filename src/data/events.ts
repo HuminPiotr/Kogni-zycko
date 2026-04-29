@@ -40,7 +40,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_birth_silence",
         text: "Cisza. Ciało zastyga. Oddychaj płytko i czekaj.",
         type: "avoidant",
-        cost: { resource: "energy", amount: 1 },
         hiddenStructure: "insula",
         flavorReveal:
           "Reakcja freeze (zamrożenie). Grzbietowy nerw błędny wyłącza mobilizację i przełącza cię w tryb minimalnego zużycia energii. Lekarze trochę panikują. Klepią cię. W końcu oddychasz. Ale twój układ nerwowy właśnie zapisał pierwszą lekcję: 'Kiedy jest źle – znikaj'.",
@@ -86,6 +85,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_mirror_touch_self",
         text: "Dotknij WŁASNEGO nosa, nie lustra.",
         type: "rational",
+        cost: { resource: "willpower", amount: 5 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Test lustra zdany. Kora przedczołowa dokonała pierwszej metakognicji: odróżnienia 'ja' od 'nie-ja'. To moment, w którym z organizmu reaktywnego stajesz się istotą samoświadomą. Brzmi banalnie? Od tego momentu możesz czuć wstyd, dumę i poczucie winy. Witaj w piekle bycia człowiekiem.",
@@ -144,6 +144,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_candy_steal",
         text: "Gdy mama nie patrzy, wsuń batonik do kieszeni. Cisza. Spokój. Nikt się nie dowie.",
         type: "active",
+        cost: { resource: "energy", amount: 5 },
         hiddenStructure: "caudate",
         flavorReveal:
           "Jądro ogoniaste przejęło sterowanie motoryką. Szlak mezolimbiczny (VTA → nucleus accumbens) wypuszcza falę dopaminy jeszcze ZANIM rozwiniesz papierek. To 'wanting' (pragnienie), nie 'liking' (przyjemność). Twój mózg właśnie nauczył się, że obejście zasad = nagroda bez kary. To jest fundament każdego uzależnienia.",
@@ -154,7 +155,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_candy_eyes",
         text: "Nie krzycz. Po prostu stój i patrz na mamę. Milcz. Niech sama to poczuje.",
         type: "empathic",
-        cost: { resource: "mood", amount: 2 },
+        cost: { resource: "mood", amount: 5 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa i neurony lustrzane współpracują w akcie cichej manipulacji emocjonalnej. Tworzysz dyskomfort w DRUGIEJ osobie bez agresji – aktywujesz jej system empatii twarzą pełną cierpienia. To zaawansowana (choć intuicyjna) teoria umysłu. Nie krzyczysz. Nie bijesz. Zmuszasz drugiego człowieka, by SAM podjął decyzję na twoją korzyść.",
@@ -204,7 +205,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_heist_plan",
         text: "Weź DWA cukierki. Tylko dwa. Schowaj do kieszeni. Odłóż krzesło na miejsce.",
         type: "rational",
-        cost: { resource: "willpower", amount: 3 },
+        cost: { resource: "willpower", amount: 5 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa, mimo swojego niedorozwoju, właśnie wygrała nierówną walkę i uruchomiła mechanizm 'delayed gratification' (odroczona gratyfikacja). To ten sam mechanizm, który w słynnym Stanford Marshmallow Test przewidywał sukces życiowy 20 lat później. Używasz go do kradzieży, co jest etycznie wątpliwe, ale neurobiologicznie — genialne.",
@@ -254,7 +255,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_sandbox_freeze_new",
         text: "Zaciśnij zęby. Odwróć się. Odejdź bez słowa.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 2 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp zapisuje nowy wzorzec: konfrontacja → rezygnacja z zasobu. To unikanie (avoidance coping). Nie jest to 'przegranie' w sensie biologicznym — to strategia minimalizowania strat. Ale twój mózg właśnie nauczył się, że wycofanie jest bezpieczniejsze niż walka. Za 15 lat ta autostrada poprowadzi cię prosto do unikania trudnych rozmów.",
@@ -265,7 +265,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_sandbox_trade",
         text: "Oddychaj. Powoli. Podnieś wiaderko i powiedz: 'Zamienimy się?'",
         type: "rational",
-        cost: { resource: "willpower", amount: 4 },
+        cost: { resource: "willpower", amount: 5 },
         hiddenStructure: "pfc",
         flavorReveal:
           "4 punkty siły woli. CZTERY. Tyle kosztuje 4-latka zahamowanie wściekłości i wygenerowanie alternatywnej strategii społecznej. Dla dorosłego to byłby koszt 1. Ale twoja kora przedczołowa pracuje z 20% mocy — brakuje mieliny, brakuje połączeń, brakuje doświadczenia. To co właśnie zrobiłeś to neurobiologiczny odpowiednik podniesienia samochodu gołymi rękami.",
@@ -305,6 +305,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_grandma_bypass",
         text: "Podejdź do babci, kiedy mama wychodzi do kuchni. Zrób smutne oczy.",
         type: "empathic",
+        cost: { resource: "mood", amount: 6 },
         hiddenStructure: "insula",
         flavorReveal:
           "Triangulacja. W wieku 4 lat potrafisz już mapować relacje społeczne i wykorzystywać luki w systemie. Wyspa integruje wiedzę o stanach emocjonalnych RÓŻNYCH osób i identyfikuje 'najsłabsze ogniwo'. To fundament inteligencji makiawelicznej — i jednocześnie przyszłej kompetencji społecznej. Granica między nimi? Intencja.",
@@ -315,7 +316,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_grandma_honest",
         text: "Zapytaj głośno przy mamie: 'Babciu, mogę loda? Mama powiedziała nie, ale ja się pytam.'",
         type: "rational",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "willpower", amount: 6 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Odwaga transparencji. Zamiast manipulować, ujawniasz swoją strategię na głos. To wymaga pracy kory przedczołowej: musisz zahamować impuls do ukrywania intencji i zaakceptować ryzyko podwójnej odmowy. Mama jest zaskoczona. Babcia się śmieje. Dostajesz pół loda. Negocjacja > manipulacja.",
@@ -326,7 +327,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_grandma_tantrum_lite",
         text: "Zacznij cicho mówić 'nikt mnie nie kocha'. Pod nosem, ale wystarczająco głośno.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 1 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Pasywo-agresja jako narzędzie. Ciało migdałowate nauczyło się, że JAWNA agresja (krzyk w sklepie) jest ryzykowna. Więc ewoluowało w kierunku UKRYTEJ presji emocjonalnej. 'Nikt mnie nie kocha' to bomba neutronowa skierowana w system przywiązania opiekuna. Babcia natychmiast reaguje. Mama czuje się winna.",
@@ -365,6 +365,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_lie_creative",
         text: "'To wiatr! Okno było otwarte i wazon spadł!' Mów z przekonaniem.",
         type: "rational",
+        cost: { resource: "willpower", amount: 6 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Narodziny kłamstwa. Twoja kora przedczołowa MUSIAŁA wykonać 4 operacje jednocześnie: (1) zahamować impuls przyznania się, (2) skonstruować fałszywą narrację, (3) ocenić, czy mama ją kupi, (4) kontrolować mimikę. To test Teorii Umysłu — żeby skłamać, musisz zrozumieć, że DRUGI CZŁOWIEK MA INNĄ WIEDZĘ NIŻ TY. Kłamstwo 5-latka to nie defekt moralny. To kognitywny triumf.",
@@ -375,7 +376,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_confess",
         text: "Opuść głowę. 'To ja. Nie chciałem.'",
         type: "empathic",
-        cost: { resource: "mood", amount: 2 },
+        cost: { resource: "mood", amount: 6 },
         hiddenStructure: "insula",
         flavorReveal:
           "Dyskomfort somatyczny (ścisk w żołądku, gorąco w twarzy) jest zbyt silny, by go zignorować. Wyspa generuje sygnał 'niespójności wewnętrznej' — poczucie winy to biologiczny koszt kłamstwa. Twoje ciało dosłownie BOLI, gdy próbujesz zbudować fałszywą wersję. Wybierasz prawdę nie z moralności, ale dlatego, że twoje trzewia nie dają rady.",
@@ -386,7 +387,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_run",
         text: "Rzuć dinozaura i uciekaj do pokoju. Zamknij drzwi. Nie istniejesz.",
         type: "avoidant",
-        cost: { resource: "energy", amount: 1 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Flight response. Ciało migdałowate przejmuje sterowanie nogami zanim kora przedczołowa zdąży sformułować jakikolwiek plan. Biegniesz. Chowasz się pod kołdrę. Problem: problem nadal istnieje. Szkło nadal leży na podłodze. Ale w TWOJEJ rzeczywistości, jeśli nie widzisz konsekwencji, to ich nie ma. Ten mechanizm 'ucieczka = rozwiązanie' będzie cię kosztował drogo. Ale nie dziś.",
@@ -426,7 +426,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_school_wall",
         text: "Stań pod ścianą. Nie ruszaj się. Obserwuj. Niech ONI przyjdą pierwsi.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 1 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp w trybie mapowania. Zamiast działać, zbierasz dane. To strategia 'observe before engage', częsta u dzieci z wczesną samoświadomością — wiesz, że ISTNIEJESZ jako osobny byt, więc chronisz ten byt przez obserwację zanim zdecydujesz, gdzie go umieścić. Kosz: izolacja. Zysk: nie popełniasz błędu społecznego na starcie.",
@@ -437,7 +436,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_school_approach",
         text: "Podejdź do dziecka, które stoi samo. Ono też się boi.",
         type: "empathic",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "mood", amount: 6 },
         hiddenStructure: "insula",
         flavorReveal:
           "Koregulacja rówieśnicza. Dotychczas regulowałeś emocje WYŁĄCZNIE przez dorosłego (mamę). Teraz, po raz pierwszy, szukasz bufora w RÓWIEŚNIKU. Wyspa rozpoznaje wspólny stan emocjonalny (strach), a neurony lustrzane tworzą most. To narodziny przyjaźni — nie z sympatii, ale z biologicznej POTRZEBY koregulacji w obcym środowisku.",
@@ -448,7 +447,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_school_run_door",
         text: "Biegnij za mamą. Natychmiast. Zanim zniknie za rogiem.",
         type: "impulsive",
-        cost: { resource: "energy", amount: 2 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Protest separacyjny (Bowlby, faza 1). Ciało migdałowate uruchomiło pełną mobilizację: 'ODZYSKAJ BAZĘ BEZPIECZNĄ ALBO ZGIŃ'. To nie jest kapryśne dziecko. To układ nerwowy który przez 6 lat NIGDY nie był odcięty od opiekuna na tak długo. Nauczycielka łapie cię na korytarzu. Mama jest już za bramą.",
@@ -498,7 +496,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_school_alt_freeze",
         text: "Stój w drzwiach. Za dużo. Nie wiesz co wybrać.",
         type: "avoidant",
-        cost: { resource: "willpower", amount: 1 },
         hiddenStructure: "thalamus",
         flavorReveal:
           "Przeciążenie sensoryczne (sensory overload). Wzgórze dostaje WIĘCEJ bodźców niż potrafi przefiltrować, a bez wykształconej samoświadomości nie masz wewnętrznego kompasu 'co jest dla MNIE ważne'. Efekt: paraliż decyzyjny. Stoisz jak słup. Nauczycielka musi cię poprowadzić za rękę do ławki.",
@@ -547,6 +544,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_rules_snitch",
         text: "Podnieś rękę. 'Proszę Pani, Kuba rysuje po biurku.'",
         type: "rational",
+        cost: { resource: "willpower", amount: 6 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa testuje nowy system nagród: 'Jeśli zasady istnieją, to ich EGZEKWOWANIE powinno być nagradzane.' To logiczne rozumowanie. Problem? Społeczność rówieśnicza operuje na INNYM kodzie niż dorosły system. Pani cię chwali. Kuba patrzy na ciebie jak na wroga. Właśnie odkryłeś, że przestrzeganie zasad ma cenę społeczną.",
@@ -567,7 +565,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_rules_freeze",
         text: "Nie rób nic. Siedź idealnie prosto. Nie oddychaj za głośno.",
         type: "avoidant",
-        cost: { resource: "willpower", amount: 1 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Hypervigilance (nadmierna czujność). Ciało migdałowate nie wie, JAKIE są konsekwencje złamania reguł, więc traktuje KAŻDĄ regułę jak kwestię przetrwania. Siedzisz sztywno, nie ruszasz się, monitorujesz twarz Pani co 3 sekundy. To adaptacyjne w krótkim terminie, ale jeśli to się utrwali — witaj w lęku uogólnionym.",
@@ -606,6 +603,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_hierarchy_clown",
         text: "Zrób coś głupiego — udawaj, że celowo nie grasz, bo piłka jest 'dla małych dzieci'.",
         type: "active",
+        cost: { resource: "energy", amount: 7 },
         hiddenStructure: "caudate",
         flavorReveal:
           "Mechanizm obronny 'sour grapes' (kwaśne winogrona). Jądro ogoniaste nie może uzyskać nagrody (akceptacji), więc DEWALUUJE nagrodę ('nie chciałem grać'). Jednocześnie próbujesz zdobyć alternatywną dopaminę przez bycie śmiesznym. Problem: grupa widzi to na wylot. Śmieją się Z ciebie, nie z twoim żartem.",
@@ -616,7 +614,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_hierarchy_prove",
         text: "Powiedz: 'Dam ci mojego pokemona za miejsce w drużynie.'",
         type: "rational",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "willpower", amount: 7 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Wymiana zasobów za status — fundamentalny mechanizm społeczny naczelnych. Kora przedczołowa obliczyła: 'Nie mam siły fizycznej ani popularności, ale mam ZASÓB, którego on chce.' To transakcyjne myślenie. Działa krótkoterminowo. Długoterminowo? Uczysz grupę, że twoją wartością jest to, co MASZ, nie kim jesteś. Mateusz bierze pokemona. Grasz. Jutro nie masz ani pokemona, ani pewności, że znów zostaniesz wybrany.",
@@ -627,7 +625,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_hierarchy_alone",
         text: "Odwróć się. Idź sam na drugi koniec boiska. Niech nie widzą twojej twarzy.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 2 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp zapisuje wzorzec: 'grupa = ból'. Ten ślad pamięciowy będzie aktywowany AUTOMATYCZNIE przy każdej przyszłej sytuacji społecznej wymagającej 'dołączenia do grupy'. To nie jest decyzja — to budowanie autostrady unikania, której rozbiórka za 15 lat będzie kosztować fortunę u terapeuty.",
@@ -638,7 +635,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_hierarchy_fight",
         text: "Podejdź do Mateusza. 'Ja też gram. Nie pytam.'",
         type: "impulsive",
-        cost: { resource: "energy", amount: 2 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Strategia dominacji: zamiast prosić o pozwolenie (pozycja niska), NARZUCASZ swoją obecność (pozycja wysoka). Ciało migdałowate przeszło z trybu 'uciekaj' na 'walcz'. Mateusz jest zaskoczony. Przez chwilę patrzą na siebie. Wynik? Zależy od tego, kto pierwszy odwróci wzrok. Dziś nie odwróciłeś. Ale serce bije ci 180.",
@@ -688,7 +684,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_spiral_verbal",
         text: "Nie bij. Powiedz najgorszą rzecz, jaką potrafisz — celuj w coś, co go ZABOLI.",
         type: "active",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "energy", amount: 7 },
         hiddenStructure: "pfc",
         flavorReveal:
           "EWOLUCJA AGRESJI. Kora przedczołowa przejęła impuls z ciała migdałowatego i PRZEKIEROWAŁA go z kanału fizycznego na werbalny. To ogromny skok rozwojowy — przemoc symboliczna zamiast fizycznej. Nadal boli, ale nikogo nie dotykasz. Mateusz mruga. Jego koledzy się śmieją — ale z NIEGO. Wygrałeś. Ale: agresja werbalna to nadal agresja. Zmienił się nośnik, nie intencja.",
@@ -699,7 +695,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_spiral_walk_away",
         text: "Zaciśnij pięści. Policz do pięciu. Odejdź. NIE dlatego, że się boisz.",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 7 },
         hiddenStructure: "pfc",
         flavorReveal:
           "PIĘĆ punktów siły woli. Masz 8 lat i właśnie użyłeś więcej zasobów hamujących niż dorosły używa przy rezygnacji z papierosa. Kora przedczołowa NADPISUJE wieloletnią autostradę agresji z ciała migdałowatego. To jedna z najtrudniejszych rzeczy, jakie twój mózg kiedykolwiek zrobił. Mateusz krzyczy za tobą 'tchórz'. Nie jesteś tchórzem. Jesteś kimś, kto złamał schemat. Ale to będzie wymagało POWTÓRZENIA, żeby się utrwalić.",
@@ -749,7 +745,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_fail_hide",
         text: "Schowaj kartkę do plecaka. Nikomu nie mów. Nikomu. Nigdy.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 1 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Unikanie konfrontacji z porażką. Ciało migdałowate kategoryzuje jedynkę nie jako feedback, ale jako 'dowód wadliwości'. Chowając sprawdzian, chowasz DOWÓD — ale nie uczucie. Wstyd nie znika, gdy go ukryjesz. On fermentuje. Hipokamp przechowuje go jako niezamkniętą pętlę, która będzie się aktywować przy KAŻDYM przyszłym teście.",
@@ -770,7 +765,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_fail_study",
         text: "Idź do pani po lekcji. Zapytaj: 'Co mam zrobić, żeby to poprawić?'",
         type: "rational",
-        cost: { resource: "willpower", amount: 3 },
+        cost: { resource: "willpower", amount: 7 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Growth mindset (nastawienie na rozwój). Kora przedczołowa wykonuje TRZY trudne operacje: (1) hamuje impuls ucieczki, (2) rekategoryzuje porażkę z 'jestem głupi' na 'nie umiem JESZCZE', (3) inicjuje zachowanie naprawcze. To kosztuje 3 willpower, bo masz 9 lat i twój mózg naturalnie unika dyskomfortu. Pani jest zaskoczona. Nikt nie przychodzi po lekcji. Dostajesz dodatkowe zadania i — co ważniejsze — zaczynasz budować wzorzec: 'porażka → naprawa', nie 'porażka → ucieczka'.",
@@ -781,7 +776,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_fail_cry",
         text: "Tutaj? Przy wszystkich? Nie. Wytrzymaj do toalety. WYTRZYMAJ.",
         type: "empathic",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "mood", amount: 7 },
         hiddenStructure: "insula",
         flavorReveal:
           "Regulacja emocjonalna oparta na normach społecznych. Wyspa krzyczy 'PŁACZ', ale kora przedczołowa wie, że publiczny płacz w 3. klasie = śmierć społeczna. Ten konflikt między autentycznym przeżywaniem a społecznym dostosowaniem to fundament przyszłej regulacji — uczysz się GDZIE i KIEDY wyrażać emocje. To zdrowe. Do czasu, gdy nie zapomnisz, że w ogóle MASZ emocje.",
@@ -821,7 +816,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_betray_revenge",
         text: "Podejdź. Powiedz głośno przy wszystkich sekret, który ci kiedyś powiedział.",
         type: "impulsive",
-        cost: { resource: "energy", amount: 2 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Odwet symetryczny. Ciało migdałowate stosuje zasadę 'oko za oko' — jeśli moje zaufanie zostało zdradzone, NISZCZĘ wartość zaufania u przeciwnika. Problem? Ujawniając jego sekret, demonstrujesz całej grupie, że NIKT nie może ci zaufać. Zranił cię? Tak. Ale ty właśnie spaliłeś most, na którym mógłbyś jeszcze stanąć.",
@@ -832,7 +826,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_betray_new_group",
         text: "Odwróć się. Znajdź kogoś innego. Jest tu więcej ludzi niż dwóch.",
         type: "active",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "energy", amount: 7 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Przegrupowanie społeczne. Kora przedczołowa dokonuje bolesnej kalkulacji: 'ten zasób (przyjaźń) jest utracony, szukaj alternatywy ZAMIAST walczyć o zwrot'. To wymaga zahamowania impulsu odwetowego I pokonania lęku przed nową grupą. Podwójny koszt. Ale: uczysz się, że zaufanie to nie kontrakt wieczny. Można je odbudować. W INNYM miejscu.",
@@ -843,7 +837,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_betray_wall",
         text: "Nic nie rób. Udawaj, że nie widziałeś. Że nie obchodzi cię. Idź sam do domu.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 3 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp zamyka archiwum na klucz. 'Bliskość = ból' — nowy wzorzec zakodowany z siłą traumy. To nie jest świadoma decyzja 'nie będę miał przyjaciół'. To CIAŁO, które w przyszłości będzie się napinać przy każdej próbie zbliżenia. Attachment avoidance buduje się właśnie w takich momentach. Nie trzeba wielkiej traumy. Wystarczy jeden 10-latek z sekretami, które wylądowały w niewłaściwych uszach.",
@@ -883,6 +876,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_trade_broker",
         text: "Zorganizuj wymianę. Ustal prowizję: jedna karta z każdej transakcji dla ciebie. Biznes.",
         type: "rational",
+        cost: { resource: "willpower", amount: 8 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa zbudowała model ekonomiczny. Widzisz systemy, których inni nie widzą. To umiejętność, która może prowadzić do genialnego biznesu lub do wybitnego oszustwa — różnicą jest ETYKA, a ta nie jest wbudowana w PFC. Zdobywasz karty bez wydania grosza. Dzieci zaczynają do ciebie przychodzić. Masz STATUS zbudowany na UŻYTECZNOŚCI. Szlak dopaminergiczny płonie z satysfakcji.",
@@ -943,7 +937,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_crush_note",
         text: "Napisz karteczkę. Podaj przez trzy ławki. Nie podpisuj się.",
         type: "active",
-        cost: { resource: "willpower", amount: 2 },
+        cost: { resource: "energy", amount: 8 },
         hiddenStructure: "caudate",
         flavorReveal:
           "Kompromis między pragnieniem a strachem. Jądro ogoniaste MUSI działać (pragnienie zbliżenia jest zbyt silne), ale ciało migdałowate blokuje bezpośrednią konfrontację. Efekt: anonimowa karteczka. To twój mózg próbujący uzyskać nagrodę przy MINIMALNYM ryzyku kary. Nie jest odważna, ale — co ciekawe — twoja kora przedczołowa ZAPLANOWAŁA metodę dostarczenia, obliczając minimalny koszt społeczny. Postęp.",
@@ -954,7 +948,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_crush_direct",
         text: "Na przerwie. Podejdź. Powiedz: 'Cześć. Chcesz iść na lody po szkole?'",
         type: "rational",
-        cost: { resource: "willpower", amount: 4 },
+        cost: { resource: "willpower", amount: 8 },
         hiddenStructure: "pfc",
         flavorReveal:
           "CZTERY punkty siły woli. Kora przedczołowa musiała: (1) zahamować paraliż ciała migdałowatego, (2) wygenerować skrypt społeczny, (3) kontrolować głos, mimikę i postawę ciała, (4) zaakceptować 50% szansę na publiczne odrzucenie. To NAJTRUDNIEJSZA RZECZ, jaką twój mózg kiedykolwiek zrobił. Trudniejsza niż hamowanie pięści w piaskownicy. Odpowiedź? Nieważna. Ważne, że SPRÓBOWAŁEŚ pomimo alarmu całego systemu.",
@@ -965,7 +959,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_crush_stalk",
         text: "Nie mów nic. Ale dowiedz się wszystkiego. Zapytaj kolegów. Sprawdź, który profil dodać na naszej klasie.",
         type: "empathic",
-        cost: { resource: "energy", amount: 1 },
+        cost: { resource: "mood", amount: 8 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Zbieranie danych bez działania. Hipokamp gromadzi informacje kompulsywnie: ulubiona muzyka, droga do domu, z kim rozmawia. Czujesz kontrolę nad sytuacją, choć NIE masz jej ani grama. To złudzenie wiedzy jako substytut odwagi. Twoje jądro ogoniaste dostaje małe strzały dopaminy z każdego nowego 'faktu' — ale PRAWDZIWA nagroda (kontakt) pozostaje nieosiągalna. Możesz utknąć w tej pętli na LATA.",
@@ -976,7 +970,6 @@ export const EVENTS: GameEvent[] = [
         id: "dec_crush_deny",
         text: "To nic. Nie czuję nic. To głupie. Wróć do książki.",
         type: "avoidant",
-        cost: { resource: "mood", amount: 2 },
         hiddenStructure: "amygdala",
         flavorReveal:
           "Supresja emocjonalna. Ciało migdałowate i kora przedczołowa współpracują PRZECIW tobie — migdałek mówi 'zbyt niebezpieczne', kora mówi 'nie mam zasobów, żeby to ogarnąć', razem decydują: 'tłum ten sygnał'. Insula protestuje somatycznie (ścisk w żołądku, brak snu), ale jest przegłosowana. Emocja nie znika. Schodzi do piwnicy. I tam rośnie.",
@@ -1048,7 +1041,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Zaplanuj bloki materiału i idź spać o 23:00",
         type: "rational",
-        cost: { resource: "willpower", amount: 4 },
+        cost: { resource: "willpower", amount: 8 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa aktywowała kontrolę wykonawczą (pola 9 i 46 Brodmanna), " +
@@ -1062,7 +1055,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Narysuj mapy skojarzeń — połącz struktury z funkcjami",
         type: "active",
-        cost: { resource: "energy", amount: 3 },
+        cost: { resource: "energy", amount: 8 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp buduje engramy — fizyczne ślady pamięci — integrując informacje " +
@@ -1125,7 +1118,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Wróć do domu — jutro trzeba żyć",
         type: "rational",
-        cost: { resource: "willpower", amount: 3 },
+        cost: { resource: "willpower", amount: 8 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa wzięła pod uwagę odroczone konsekwencje — planowanie i ocena " +
@@ -1139,7 +1132,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zastanów się, czemu nic nie pamiętasz — to dziwne",
         type: "empathic",
-        cost: { resource: "mood", amount: 2 },
+        cost: { resource: "mood", amount: 8 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp jest niezbędny do tworzenia nowych wspomnień epizodycznych. " +
@@ -1206,7 +1199,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Ogarnij wszystko sam — YouTube i cierpliwość",
         type: "rational",
-        cost: { resource: "willpower", amount: 4 },
+        cost: { resource: "willpower", amount: 9 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa (pola 10–12 Brodmanna — abstrakcyjne myślenie, planowanie) " +
@@ -1221,7 +1214,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zadzwoń do rodziców — zapytaj jak to działa",
         type: "empathic",
-        cost: { resource: "mood", amount: 2 },
+        cost: { resource: "mood", amount: 9 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa (kora wyspy, kora mezolimbiczna o budowie 3–5 warstw) przetwarza " +
@@ -1287,7 +1280,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Weź przerwę — zmniejsz obciążenie, zanim się posypie",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 9 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa aktywowała metapoznanie — zdolność do oceny własnych " +
@@ -1303,7 +1296,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Wsłuchaj się dokładnie — co czuje twoje ciało?",
         type: "empathic",
-        cost: { resource: "mood", amount: 3 },
+        cost: { resource: "mood", amount: 9 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa jest kluczowa dla interocepcji — przetwarzania sygnałów z wnętrza ciała " +
@@ -1371,7 +1364,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Negocjuj z startupem — poproś o lepsze warunki",
         type: "rational",
-        cost: { resource: "willpower", amount: 4 },
+        cost: { resource: "willpower", amount: 9 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa wygenerowała trzecią opcję, której ciało migdałowate " +
@@ -1385,7 +1378,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Wybierz startup — ryzykujesz dla marzeń",
         type: "active",
-        cost: { resource: "energy", amount: 4 },
+        cost: { resource: "energy", amount: 9 },
         hiddenStructure: "caudate",
         flavorReveal:
           "Jądro ogoniaste (głowa, trzon i ogon — część prążkowia nowego) jest " +
@@ -1442,7 +1435,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_1",
         text: "Użyj nowej jasności — zaplanuj życie na papierze",
         type: "rational",
-        cost: { resource: "willpower", amount: 3 },
+        cost: { resource: "willpower", amount: 10 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Mielinizacja połączeń kory przedczołowej z ciałem migdałowatym i prążkowiem " +
@@ -1458,7 +1451,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Przeproś kogoś za stare błędy — teraz możesz",
         type: "empathic",
-        cost: { resource: "mood", amount: 4 },
+        cost: { resource: "mood", amount: 10 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa i przednia kora zakrętu obręczy (anterior cingulate cortex) " +
@@ -1474,7 +1467,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Wróć do dawnych marzeń — sprawdź czy je jeszcze chcesz",
         type: "active",
-        cost: { resource: "energy", amount: 3 },
+        cost: { resource: "energy", amount: 10 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp nie tylko przechowuje wspomnienia — uczestniczy w symulowaniu przyszłości " +
@@ -1546,7 +1539,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Napisz szefowi — termin jest nierealny, omawiamy rano",
         type: "rational",
-        cost: { resource: "willpower", amount: 7 },
+        cost: { resource: "willpower", amount: 10 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Grzbietowa sieć kontroli uwagi (kora czołowa + tylna kora ciemieniowa) " +
@@ -1563,7 +1556,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Pogadaj z zespołem — może ktoś może pomóc",
         type: "empathic",
-        cost: { resource: "mood", amount: 3 },
+        cost: { resource: "mood", amount: 10 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa (insula) przetwarza interoceptywne sygnały zmęczenia " +
@@ -1622,7 +1615,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_1",
         text: "Zrób szczery audyt życia — zapisz co chcesz zmienić",
         type: "rational",
-        cost: { resource: "willpower", amount: 6 },
+        cost: { resource: "willpower", amount: 10 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Sieć orientacyjna (orienting) kieruje uwagę na cechy i lokalizację " +
@@ -1654,7 +1647,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Umów się z mentorem lub terapeutą",
         type: "active",
-        cost: { resource: "energy", amount: 4 },
+        cost: { resource: "energy", amount: 10 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           'Hipokamp uczestniczy w „mental time travel" — rekombinuje ślady epizodyczne ' +
@@ -1728,7 +1721,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Zaplanuj rozmowę — fakty, wpływ, konkretna prośba",
         type: "rational",
-        cost: { resource: "willpower", amount: 6 },
+        cost: { resource: "willpower", amount: 10 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Sieć brzuszna kontroli uwagi (zlokalizowana głównie w prawej półkuli, " +
@@ -1745,7 +1738,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Powiedz jak się czujesz — bez struktury, wprost",
         type: "empathic",
-        cost: { resource: "mood", amount: 4 },
+        cost: { resource: "mood", amount: 11 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa przetwarza bodźce interoceptywne i jest kluczowa dla " +
@@ -1819,7 +1812,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Weź tydzień, policz, porównaj trzy warianty w arkuszu",
         type: "rational",
-        cost: { resource: "willpower", amount: 7 },
+        cost: { resource: "willpower", amount: 11 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Wzgórze jako Dyspozytor Ruchu filtruje jednocześnie: " +
@@ -1836,7 +1829,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zapytaj rodziców lub przyjaciela — kto przez to przechodził",
         type: "active",
-        cost: { resource: "energy", amount: 3 },
+        cost: { resource: "energy", amount: 11 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp integruje wiedzę epizodyczną (cudze doświadczenia zasłyszane " +
@@ -1911,7 +1904,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Zostań z tym uczuciem — zapisz co naprawdę ważne",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 11 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Uwaga ukryta (Helmholtz, 1867): można skupić uwagę na bodźcu " +
@@ -1929,7 +1922,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zadzwoń do kogoś bliskiego — o 2 w nocy, bo możesz",
         type: "empathic",
-        cost: { resource: "mood", amount: 4 },
+        cost: { resource: "mood", amount: 11 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa (insula) jest kluczowa dla empatii i interocepcji. " +
@@ -2003,7 +1996,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Wprowadź system: jedno spotkanie statusowe, resztę deleguj",
         type: "rational",
-        cost: { resource: "willpower", amount: 6 },
+        cost: { resource: "willpower", amount: 11 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Uwaga ukryta (Helmholtz): można skupić uwagę na bodźcu " +
@@ -2021,7 +2014,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zapytaj każdą osobę co jej blokuje — słuchaj zanim planujesz",
         type: "empathic",
-        cost: { resource: "mood", amount: 3 },
+        cost: { resource: "mood", amount: 11 },
         hiddenStructure: "insula",
         flavorReveal:
           "Efekt imprezy koktajlowej (Cherry, 1953): selektywna uwaga słuchowa " +
@@ -2094,7 +2087,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Porozmawiaj z partnerem szczerze — razem skatalogujcie wartości",
         type: "rational",
-        cost: { resource: "willpower", amount: 6 },
+        cost: { resource: "willpower", amount: 12 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa (pola 10–12 Brodmanna) odpowiada za abstrakcyjne " +
@@ -2111,7 +2104,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zaufaj intuicji ciała — co czujesz naprawdę, bez myślenia?",
         type: "empathic",
-        cost: { resource: "mood", amount: 4 },
+        cost: { resource: "mood", amount: 12 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa odpowiada za kontrolę układu autonomicznego: tętna, oddechu " +
@@ -2170,7 +2163,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_1",
         text: "Jedź natychmiast — bądź tam fizycznie",
         type: "active",
-        cost: { resource: "energy", amount: 5 },
+        cost: { resource: "energy", amount: 12 },
         hiddenStructure: "insula",
         flavorReveal:
           "Ból drugi — wolnopłynący — przenoszony przez włókna C (polimodalne, " +
@@ -2190,7 +2183,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Zbierz informacje — zadzwoń do lekarzy, zrozum sytuację",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 12 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Kora przedczołowa aktywuje kontrolę wykonawczą w odpowiedzi na " +
@@ -2286,7 +2279,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Zaproponuj nowy projekt lub awans — stwórz wyzwanie aktywnie",
         type: "rational",
-        cost: { resource: "willpower", amount: 7 },
+        cost: { resource: "willpower", amount: 12 },
         hiddenStructure: "pfc",
         flavorReveal:
           "ADHD i mechanizm rozproszenia uwagi wynikają z zaburzeń organizacji " +
@@ -2304,7 +2297,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zacznij hobby lub naukę czegoś zupełnie innego",
         type: "active",
-        cost: { resource: "energy", amount: 4 },
+        cost: { resource: "energy", amount: 12 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp jest kluczowy dla tworzenia nowych wspomnień epizodycznych " +
@@ -2379,7 +2372,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Umów się do lekarza — profilaktyka, nie katastrofizacja",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 13 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Bramkowa teoria bólu (Melzack i Wall): bodźce mechanosensoryczne " +
@@ -2398,7 +2391,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zacznij ruch — rozciąganie, spacery, coś regularnego",
         type: "active",
-        cost: { resource: "energy", amount: 4 },
+        cost: { resource: "energy", amount: 13 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa odpowiada za kontrolę układu autonomicznego: tętna, oddechu " +
@@ -2460,7 +2453,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_1",
         text: "Wyjdź ze spotkania — dziecko jest ważniejsze",
         type: "active",
-        cost: { resource: "energy", amount: 4 },
+        cost: { resource: "energy", amount: 13 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa (kora wyspy, kora mezolimbiczna o budowie 3–5 warstw) " +
@@ -2477,7 +2470,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Negocjuj strukturę — zaproponuj elastyczne godziny na stałe",
         type: "rational",
-        cost: { resource: "willpower", amount: 7 },
+        cost: { resource: "willpower", amount: 13 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Wzgórze posiada trzy typy jąder: I rzędowe (odbiór z narządów zmysłów), " +
@@ -2553,7 +2546,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_1",
         text: "Skocz — zaakceptuj ofertę i zacznij od razu",
         type: "active",
-        cost: { resource: "energy", amount: 5 },
+        cost: { resource: "energy", amount: 13 },
         hiddenStructure: "caudate",
         flavorReveal:
           "Kora nowa (6-warstwowa, neopallium) stanowi ponad 90% powierzchni kory u człowieka. " +
@@ -2570,7 +2563,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Ucz się równolegle przez 6 miesięcy — potem decyduj",
         type: "rational",
-        cost: { resource: "willpower", amount: 6 },
+        cost: { resource: "willpower", amount: 13 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Sieć grzbietowa uwagi obejmuje: przednie pola oczne (FEF), " +
@@ -2665,7 +2658,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Zaproponuj terapię pary — razem, nie osobno",
         type: "rational",
-        cost: { resource: "willpower", amount: 6 },
+        cost: { resource: "willpower", amount: 14 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Zakręt obręczy i wyspa tworzą korę mezolimbiczną (3–5 warstw) — " +
@@ -2682,7 +2675,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: 'Powiedz wprost — „jest coś, o czym nie rozmawiamy"',
         type: "empathic",
-        cost: { resource: "mood", amount: 5 },
+        cost: { resource: "mood", amount: 14 },
         hiddenStructure: "insula",
         flavorReveal:
           "Wyspa odpowiada za kontrolę układu autonomicznego i jest kluczowa " +
@@ -2766,7 +2759,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Daj sobie czas — pozwól mózgowi przetwarzać",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 14 },
         hiddenStructure: "pfc",
         flavorReveal:
           "Mechanizmy regulacji odczuwania bólu: endogenne opioidy — " +
@@ -2786,7 +2779,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zadzwoń do kogoś kto tę osobę też znał — wspominajcie",
         type: "empathic",
-        cost: { resource: "mood", amount: 4 },
+        cost: { resource: "mood", amount: 14 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Hipokamp jest kluczowy dla konsolidacji wspomnień epizodycznych. " +
@@ -2868,7 +2861,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_2",
         text: "Napisz list do siebie za dziesięć lat — co chcesz powiedzieć?",
         type: "rational",
-        cost: { resource: "willpower", amount: 5 },
+        cost: { resource: "willpower", amount: 14 },
         hiddenStructure: "pfc",
         flavorReveal:
           'Hipokamp uczestniczy w „mental time travel": ' +
@@ -2887,7 +2880,7 @@ export const EVENTS: GameEvent[] = [
         id: "dec_3",
         text: "Zrób coś, co zawsze odkładałeś — dziś, nie jutro",
         type: "active",
-        cost: { resource: "energy", amount: 4 },
+        cost: { resource: "energy", amount: 14 },
         hiddenStructure: "hippocampus",
         flavorReveal:
           "Neuroplastyczność hipokampa: zakręt zębaty jest jednym z " +
