@@ -26,8 +26,7 @@ export function GameScreen({ game }: Props) {
     <div className="h-dvh bg-canvas bg-polka flex items-stretch justify-center">
       <div className="w-full max-w-sm flex flex-col overflow-hidden">
         <StatusBar
-          player={state.player}
-          resources={state.resources}
+          player={state.player} resources={state.resources}
           onStatsClick={() => setShowStats(true)}
         />
 
@@ -49,8 +48,7 @@ export function GameScreen({ game }: Props) {
                 {/* deck: fixed height — never changes regardless of voices */}
                 <div className="shrink-0 h-[42vh]">
                   <DecisionDeck
-                    decisions={currentEvent.decisions ?? []}
-                    resources={state.resources}
+                    decisions={currentEvent.decisions ?? []} resources={state.resources}
                     onPick={chooseDecision}
                   />
                 </div>
@@ -62,8 +60,7 @@ export function GameScreen({ game }: Props) {
         )}
 
         <StatsSheet
-          player={state.player}
-          resources={state.resources}
+          player={state.player} resources={state.resources}
           lastDeltas={state.lastDeltas}
           open={showStats}
           onClose={() => setShowStats(false)}

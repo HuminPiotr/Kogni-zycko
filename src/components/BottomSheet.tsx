@@ -5,9 +5,10 @@ interface Props {
   onClose?: () => void;
   children: ReactNode;
   maxHeight?: string;
+  transparent?: boolean;
 }
 
-export function BottomSheet({ open, onClose, children, maxHeight = '85vh' }: Props) {
+export function BottomSheet({ open, onClose, children, maxHeight = '85vh', transparent = false }: Props) {
   if (!open) return null;
 
   return (
@@ -17,7 +18,7 @@ export function BottomSheet({ open, onClose, children, maxHeight = '85vh' }: Pro
         onClick={onClose}
       />
       <div
-        className="relative w-full overflow-y-auto animate-sheet bg-surface border-t-4 border-border-cartoon rounded-t-2xl"
+        className={`relative w-full overflow-y-auto animate-sheet ${!transparent ? 'bg-surface border-t-4 border-border-cartoon rounded-t-2xl' : ''}`}
         style={{ maxHeight }}
       >
         {children}

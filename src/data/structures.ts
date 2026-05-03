@@ -26,13 +26,13 @@ export const STRUCTURES: Record<StructureName, StructureMeta> = {
     tagline: 'Planowanie, hamowanie impulsów, racjonalne decyzje.',
     role: 'Funkcje wykonawcze, kontrola poznawcza.',
   },
-  caudate: {
-    id: 'caudate',
-    label: 'Jądro Ogoniaste',
+  nacc: {
+    id: 'nacc',
+    label: 'Jądro Półleżące',
     archetype: 'Hype Man',
     color: 'var(--color-caudate)',
-    tagline: 'Impulsy, nawyki, pęd ku nagrodzie.',
-    role: 'Część jąder podstawy, układ nagrody.',
+    tagline: 'Impulsy, nagroda, dopamina — pęd ku przyjemności.',
+    role: 'NAcc — centrum układu nagrody, dopamina, motywacja.',
   },
   hippocampus: {
     id: 'hippocampus',

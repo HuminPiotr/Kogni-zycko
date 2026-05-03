@@ -1,5 +1,4 @@
 import type { Player, Resources, TraitName } from '@/types/game';
-import { computeRegenDeltas } from '@/game/resources';
 import { BottomSheet } from '@/components/BottomSheet';
 import { StatBar } from '@/components/StatBar';
 import { ResourceMeter } from '@/components/ResourceMeter';
@@ -13,8 +12,6 @@ interface Props {
 }
 
 export function StatsSheet({ player, resources, lastDeltas, open, onClose }: Props) {
-  const trends = computeRegenDeltas(player.big5);
-
   return (
     <BottomSheet open={open} onClose={onClose} maxHeight="80vh">
       <div className="p-4 pb-8 space-y-6 bg-text-primary text-text-on-dark rounded-t-2xl">
@@ -39,9 +36,9 @@ export function StatsSheet({ player, resources, lastDeltas, open, onClose }: Pro
           <p className="font-mono text-[10px] uppercase tracking-widest opacity-50">
             Zasoby
           </p>
-          <ResourceMeter resource="energy" value={resources.energy} trend={trends.energy} />
-          <ResourceMeter resource="mood" value={resources.mood} trend={trends.mood} />
-          <ResourceMeter resource="willpower" value={resources.willpower} trend={trends.willpower} />
+          <ResourceMeter resource="energy" value={resources.energy} />
+          <ResourceMeter resource="mood" value={resources.mood} />
+          <ResourceMeter resource="willpower" value={resources.willpower} />
         </div>
       </div>
     </BottomSheet>

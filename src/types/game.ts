@@ -1,12 +1,9 @@
-// Główne typy gry Kogniżyćko.
-// Zmiana tutaj propaguje się wszędzie — autocomplete + błędy kompilacji chronią zespół.
-
 export type StructureName =
   | 'amygdala' // Ciało Migdałowate
-  | 'pfc' // Kora Przedczołowa
-  | 'caudate' // Jądro Ogoniaste
+  | 'pfc'      // Kora Przedczołowa
+  | 'nacc'     // Jądro Półleżące (NAcc)
   | 'hippocampus' // Hipokamp
-  | 'insula' // Wyspa
+  | 'insula'   // Wyspa
   | 'thalamus'; // Wzgórze
 
 export type TraitName = 'n' | 'e' | 'o' | 'a' | 'c';
@@ -22,15 +19,21 @@ export type CardType =
 
 export type EventType = 'normal' | 'crisis' | 'rescue' | 'full' | 'silent' | 'turning_point';
 
-export type Flag = string; // snake_case, walidator sprawdza spójność w całej puli.
+export type Flag = string;
 
 export type Big5 = Record<TraitName, number>;
 export type Resources = Record<ResourceName, number>;
 
+export interface Era {
+  roman: string;
+  name: string;
+  range: [number, number];
+  vibe: string;
+}
 export interface Player {
   age: number;
   big5: Big5;
-  big5Start: Big5; // wartości startowe — potrzebne do korytarza genetycznego ±30
+  big5Start: Big5;
 }
 
 export interface VoiceLine {
@@ -40,7 +43,7 @@ export interface VoiceLine {
 
 export interface DecisionCost {
   resource: ResourceName;
-  amount: number; // dodatnia — tyle zostanie odjęte. 0 lub brak = karta darmowa.
+  amount: number;
 }
 
 export interface StatImpact {
@@ -55,14 +58,15 @@ export interface Decision {
   id: string;
   text: string;
   type: CardType;
-  cost?: DecisionCost; // brak = karta darmowa (impulsywna/unikająca)
+  costs: DecisionCost[]; // pusta tablica = karta darmowa
   hiddenStructure: StructureName;
   flavorReveal: string;
   statImpact: StatImpact;
+  effects?: Partial<Resources>; // bezpośredni wpływ na zasoby
   setsFlags?: Flag[];
   clearsFlags?: Flag[];
-  isDeathCard?: boolean; // tylko w eventach crisis
-  isRescueCard?: boolean; // tylko w eventach crisis
+  isDeathCard?: boolean;
+  isRescueCard?: boolean;
 }
 
 export interface SilentImpact {
@@ -82,36 +86,48 @@ export interface ResourceCondition {
   value: number;
 }
 
+export interface TraitCondition {
+  trait: TraitName;
+  op: '<' | '>=';
+  value: number;
+}
+
 export interface GameEvent {
   id: string;
-  type?: EventType; // domyślnie 'normal'
+  type?: EventType;
   ageRange: [number, number];
   sceneText: string;
   voices?: VoiceLine[];
   decisions?: Decision[];
   requiresFlag?: Flag;
   excludesFlag?: Flag;
+  requiresAnyFlag?: Flag[]; // OR: wystarczy jedna z flag
   resourceCondition?: ResourceCondition;
-  deathReason?: string; // używane gdy wybrana zostanie isDeathCard
-  postSceneText?: string; // tylko dla silent — neuronaukowe wyjaśnienie pod sceną
-  statImpact?: SilentImpact; // tylko dla silent — auto-aplikowane efekty
-  setsFlags?: Flag[]; // tylko dla silent — flagi ustawiane bez wyboru karty
+  traitCondition?: TraitCondition;
+  isRevelation?: boolean;  // po tym evencie pokaż ekran rewelacji Big5
+  isGameEnd?: boolean;     // po tym evencie zakończ grę
+  deathReason?: string;
+  postSceneText?: string;
+  statImpact?: SilentImpact;
+  setsFlags?: Flag[];
 }
 
 // ===== Stan gry =====
 
-export type GamePhase = 'start' | 'scene' | 'silent' | 'reveal' | 'gameover';
+export type GamePhase = 'start' | 'scene' | 'silent' | 'reveal' | 'revelation' | 'era_summary' | 'gameover';
 
 export interface GameState {
   phase: GamePhase;
   player: Player;
   resources: Resources;
   flags: Flag[];
+  brainInfluence: Record<StructureName, number>;
   currentEventId: string | null;
-  lastDecisionId: string | null; // do pokazania w RevealPanel
-  lastDeltas: Partial<Record<TraitName, number>> | null; // faktyczne zmiany Big5 po decyzji (po plastyczności + korytarzu)
-  eventLog: string[]; // ID odegranych eventów
+  lastDecisionId: string | null;
+  lastDeltas: Partial<Record<TraitName, number>> | null;
+  eventLog: string[];
   deathReason: string | null;
+  eraShown: number; // track which era summary screen we've already shown (0 = none, 1-5 = eras)
 }
 
 // ===== Akcje reducera =====

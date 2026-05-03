@@ -1,5 +1,6 @@
 import type { GameState, StructureName, TraitName } from '@/types/game';
 import { STRUCTURES } from '@/data/structures';
+import { getEnding } from '@/data/endings';
 import { Button } from '@/components/ui/Button';
 
 interface Props {
@@ -15,106 +16,83 @@ const TRAIT_LABEL: Record<TraitName, string> = {
   c: 'Sumienność',
 };
 
-// Heurystyka opisowych tytułów na końcu — PRD sek. 4.3.
-function describeTrait(trait: TraitName, value: number): string {
-  const map: Record<TraitName, [string, string]> = {
-    n: ['Stoik z granitu', 'Hipochondryk / Panikarz'],
-    e: ['Domator', 'Dusza towarzystwa'],
-    o: ['Konwencjonalny Pragmatyk', 'Szalony Eksplorator'],
-    a: ['Sceptyczny Wojownik', 'Empatyczny Anioł'],
-    c: ['Kreatywny Chaos', 'Maszyna Produktywności'],
-  };
-  return value >= 50 ? map[trait][1] : map[trait][0];
+const TRAIT_DESC: Record<TraitName, [string, string]> = {
+  n: ['Spokojny jak tafla lodu.', 'Wrażliwy, niespokojny, reaktywny.'],
+  e: ['Zamknięty w sobie, obserwator.', 'Energia skierowana na zewnątrz.'],
+  o: ['Pragmatyczny, przewidywalny.', 'Ciekawy — zwłaszcza tego jak rzeczy działają w środku.'],
+  a: ['Inni ludzie to dane, nie partnerzy.', 'Empatyczny, kooperatywny.'],
+  c: ['Chaotyczny, impulsywny.', 'Skupiony — jeśli chce.'],
+};
+
+function dominantStructure(state: GameState): StructureName {
+  const entries = Object.entries(state.brainInfluence) as [StructureName, number][];
+  entries.sort((a, b) => b[1] - a[1]);
+  return entries[0][0];
 }
 
-// Dominująca struktura — najwyższa z Big5 mapuje na strukturę.
-function dominantStructure(state: GameState): StructureName {
-  const { n, e, o, a, c } = state.player.big5;
-  const pairs: [StructureName, number][] = [
-    ['amygdala', n],
-    ['caudate', e],
-    ['hippocampus', o],
-    ['insula', a],
-    ['pfc', c],
-  ];
-  pairs.sort((x, y) => y[1] - x[1]);
-  return pairs[0][0];
+function totalDecisions(state: GameState): number {
+  return Object.values(state.brainInfluence).reduce((s, v) => s + v, 0);
 }
 
 export function EndScreen({ state, onNewLife }: Props) {
-  const isNatural = state.deathReason === null;
+  const ending = getEnding(state.flags);
   const dom = dominantStructure(state);
   const domMeta = STRUCTURES[dom];
+  const domCount = state.brainInfluence[dom];
+  const total = totalDecisions(state);
 
   return (
     <main className="min-h-screen bg-canvas bg-polka flex items-center justify-center px-4 py-8">
-      <div className="max-w-2xl w-full bg-surface border-[3px] border-border-cartoon rounded-2xl shadow-cartoon-l p-8 space-y-6">
-        <header className="text-center border-b-2 border-border-subtle pb-4">
-          <p className="font-mono text-xs uppercase tracking-widest opacity-70">
-            Koniec życia
-          </p>
-          <h1 className="font-display text-5xl">{state.player.age} lat</h1>
-          <p className="mt-2 text-text-secondary">
-            {isNatural
-              ? 'System przetrwał pomyślnie! Pełne życie od narodzin do naturalnego końca.'
-              : `Przyczyna: ${state.deathReason}`}
+      <div className="max-w-xl w-full bg-surface border-[3px] border-border-cartoon rounded-2xl shadow-cartoon-l p-8 space-y-6">
+
+        <header className="text-center space-y-2">
+          <p className="font-display text-5xl">{ending.icon}</p>
+          <h1 className="font-display text-3xl leading-tight">{ending.name}</h1>
+          <p className="text-base leading-relaxed text-text-secondary pt-1">
+            {ending.text}
           </p>
         </header>
 
-        <section>
-          <h2 className="font-display text-xl mb-3">Profil psychologiczny</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {(Object.keys(state.player.big5) as TraitName[]).map((t) => {
-              const v = state.player.big5[t];
-              return (
-                <div
-                  key={t}
-                  className="border-2 border-border-subtle rounded px-3 py-2 bg-surface-warm"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-display text-sm">{TRAIT_LABEL[t]}</span>
-                    <span className="font-mono text-xs">{v}/100</span>
-                  </div>
-                  <div className="text-sm mt-1 text-text-secondary">
-                    {describeTrait(t, v)}
-                  </div>
+        <div className="border-t-2 border-border-subtle pt-4 space-y-1">
+          <p className="font-mono text-[10px] uppercase tracking-widest opacity-60 mb-3">
+            Autopsja mózgu
+          </p>
+          {(Object.keys(state.player.big5) as TraitName[]).map((t) => {
+            const v = state.player.big5[t];
+            const desc = v >= 50 ? TRAIT_DESC[t][1] : TRAIT_DESC[t][0];
+            return (
+              <div key={t} className="mb-3">
+                <div className="flex items-center justify-between mb-0.5">
+                  <span className="font-display text-sm">{TRAIT_LABEL[t]}</span>
+                  <span className="font-mono text-xs">{v}</span>
                 </div>
-              );
-            })}
-          </div>
-        </section>
+                <div className="w-full h-2 bg-border-subtle rounded-sm overflow-hidden border border-border-cartoon mb-1">
+                  <div className="h-full bg-text-primary" style={{ width: `${v}%` }} />
+                </div>
+                <p className="text-xs text-text-secondary">{desc}</p>
+              </div>
+            );
+          })}
+        </div>
 
-        <section
+        <div
           className="border-[3px] rounded-xl p-4 bg-surface-warm"
           style={{ borderColor: domMeta.color }}
         >
-          <h2 className="font-display text-xl mb-2">Raport dominującej struktury</h2>
-          <p>
-            Autopsja wykazała, że stery najczęściej przejmowało{' '}
-            <strong style={{ color: domMeta.color }}>{domMeta.label}</strong> —{' '}
-            <em>{domMeta.archetype}</em>. {domMeta.tagline}
+          <p className="font-mono text-[10px] uppercase tracking-widest opacity-60 mb-1">
+            Dominująca struktura
           </p>
-        </section>
+          <p className="font-display text-lg" style={{ color: domMeta.color }}>
+            {domMeta.label}
+          </p>
+          <p className="text-sm text-text-secondary mt-1">
+            {domCount} z {total} decyzji — {domMeta.tagline}
+          </p>
+        </div>
 
-        {state.flags.length > 0 && (
-          <section>
-            <h2 className="font-display text-sm mb-2 opacity-70">Flagi z życia</h2>
-            <div className="flex flex-wrap gap-2 font-mono text-xs">
-              {state.flags.map((f) => (
-                <span
-                  key={f}
-                  className="px-2 py-1 border border-border-subtle rounded bg-surface"
-                >
-                  {f}
-                </span>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div className="flex justify-center pt-2">
+        <div className="flex justify-center">
           <Button variant="primary" onClick={onNewLife}>
-            Zagraj ponownie (Nowe życie)
+            Zagraj ponownie
           </Button>
         </div>
       </div>

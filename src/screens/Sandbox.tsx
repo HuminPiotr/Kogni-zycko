@@ -15,9 +15,10 @@ const sampleDecision: Decision = {
   id: 'sample_1',
   text: 'Przykładowa decyzja — wypij bez pytania',
   type: 'impulsive',
-  hiddenStructure: 'caudate',
+  costs: [],
+  hiddenStructure: 'nacc',
   flavorReveal:
-    'Jądro ogoniaste pracuje w adolescencji na pełnych obrotach. Stąd risk-taking nastolatków.',
+    'Jądro Półleżące pracuje w adolescencji na pełnych obrotach. Stąd risk-taking nastolatków.',
   statImpact: { o: 3, c: -4, n: -2 },
 };
 
@@ -25,7 +26,7 @@ const sampleCostly: Decision = {
   id: 'sample_2',
   text: 'Oddychaj. Zacznij od najłatwiejszego',
   type: 'rational',
-  cost: { resource: 'willpower', amount: 4 },
+  costs: [{ resource: 'willpower', amount: 4 }],
   hiddenStructure: 'pfc',
   flavorReveal: '—',
   statImpact: { c: 5 },
@@ -35,14 +36,14 @@ const sampleLocked: Decision = {
   id: 'sample_3',
   text: 'Super-racjonalna (zablokowana brakiem siły woli)',
   type: 'rational',
-  cost: { resource: 'willpower', amount: 90 },
+  costs: [{ resource: 'willpower', amount: 90 }],
   hiddenStructure: 'pfc',
   flavorReveal: '—',
   statImpact: {},
 };
 
-const fullResources: Resources = { energy: 80, mood: 60, willpower: 70 };
 
+const fullResources: Resources = { energy: 80, mood: 60, willpower: 70 };
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="space-y-3">

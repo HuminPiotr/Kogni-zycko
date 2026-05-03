@@ -1,19 +1,47 @@
-// Ery życia z PRD sek. 7.
-export interface Era {
-  roman: string;
-  name: string;
-  range: [number, number];
-  vibe: string;
-}
+import type { Era } from '@/types/game';
 
 export const ERAS: Era[] = [
-  { roman: 'I', name: 'Firmware', range: [0, 2], vibe: 'Instalacja bazowego oprogramowania.' },
-  { roman: 'II', name: 'Patch Notes', range: [3, 5], vibe: 'Pierwsze patche świadomości.' },
-  { roman: 'III', name: 'Early Access', range: [6, 12], vibe: 'Szkoła, reguły, socjalizacja.' },
-  { roman: 'IV', name: 'Open Beta', range: [13, 18], vibe: 'Hormony, bunt, tożsamość.' },
-  { roman: 'V', name: 'Release 1.0', range: [19, 25], vibe: 'Premiera w świecie dorosłych.' },
-  { roman: 'VI', name: 'DLC: Kariera', range: [26, 40], vibe: 'Odpowiedzialność, rutyna, kryzysy.' },
-  { roman: 'VII', name: 'Midlife Patch', range: [41, 60], vibe: 'Bilans, zmiany, akceptacja.' },
-  { roman: 'VIII', name: 'Legacy Mode', range: [61, 80], vibe: 'Spowolnienie, mądrość.' },
-  { roman: 'IX', name: 'End of Support', range: [81, 100], vibe: 'Podsumowanie dzieła życia.' },
+  {
+    roman: 'I',
+    name: 'Early Access',
+    range: [0, 12],
+    vibe: 'Formowanie fundamentów. Dzieciństwo, w którym odkrywasz, że Twój mózg działa inaczej.',
+  },
+  {
+    roman: 'II',
+    name: 'Open Beta',
+    range: [13, 18],
+    vibe: 'Testowanie granic. Hormony, presja rówieśnicza, pierwsze poważne konsekwencje.',
+  },
+  {
+    roman: 'III',
+    name: 'Release 1.0',
+    range: [19, 25],
+    vibe: 'Ostateczna weryfikacja. Decyzje o życiu i śmierci. Koniec gry.',
+  },
 ];
+
+export function getEraNumber(age: number): number {
+  for (const era of ERAS) {
+    if (age >= era.range[0] && age <= era.range[1]) {
+      const index = ERAS.indexOf(era);
+      return index + 1;
+    }
+  }
+  return 3; // fallback to Era III for age > 25
+}
+
+export function getEraByNumber(num: number): Era | null {
+  return ERAS[num - 1] ?? null;
+}
+
+export function getWillpowerCapForEra(eraNumber: number): number {
+  const caps = [50, 75, 100];
+  return caps[eraNumber - 1] ?? 100;
+}
+
+export const ERA_SUMMARIES: Record<number, string> = {
+  1: '[Era I — Early Access. Formowanie fundamentów. AI wygeneruje tutaj historię na podstawie twoich wyborów]',
+  2: '[Era II — Open Beta. Testowanie granic. AI wygeneruje tutaj historię na podstawie twoich wyborów]',
+  3: '[Era III — Release 1.0. Ostateczna weryfikacja. AI wygeneruje tutaj historię na podstawie twoich wyborów]',
+};

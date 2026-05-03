@@ -257,3 +257,4 @@ Jeśli masz pomysł na nowy event, a nie chcesz go pisać sam — otwórz issue 
 - Zajrzyj do [PRD](./docs/PRD.md) — tam są wszystkie mechaniki.
 - Zajrzyj do [design guide](./docs/desing-guide.md) — tam jest cała paleta i typografia.
 - Otwórz issue z pytaniem. Lepsze głupie pytanie niż błąd w mergu.
+ 

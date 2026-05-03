@@ -72,7 +72,7 @@ export function validateEvents(events: GameEvent[]): ValidationIssue[] {
             message: `Decyzja ${d.id}: nieznana hiddenStructure "${d.hiddenStructure}".`,
           });
         }
-        if (d.cost && d.cost.amount < 0) {
+        if (d.costs.some((c) => c.amount < 0)) {
           issues.push({
             level: 'error',
             eventId: ev.id,
