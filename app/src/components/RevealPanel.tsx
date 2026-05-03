@@ -51,7 +51,7 @@ export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
             <img
               src={imgSrc}
               alt={meta.label}
-              className="h-full w-full object-contain object-bottom"
+              className="h-full w-full object-cover md:object-contain md:object-bottom"
             />
           </div>
         </div>
