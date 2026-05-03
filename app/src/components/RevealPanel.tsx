@@ -47,7 +47,7 @@ export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
       <div className="flex flex-col min-h-0 pb-8">
         {/* Top: Character art emerging from top center */}
         <div className="flex justify-center -mb-12 md:-mb-16 relative z-10">
-          <div className="h-72 md:h-[28rem] w-auto md:max-w-[60%] flex items-end justify-center">
+          <div className="h-72 md:h-[28rem] w-full md:max-w-[60%] flex items-end justify-center">
             <img
               src={imgSrc}
               alt={meta.label}
