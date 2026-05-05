@@ -166,68 +166,27 @@ export function makeReducer(pool: GameEvent[]) {
       case "CHOOSE_DECISION": {
         const hit = findDecision(state.currentEventId, action.decisionId, pool);
         if (!hit) return state;
-        const { event, decision } = hit;
+        const { decision } = hit;
 
         const effectiveCosts = decision.costs;
         if (!canAfford(state.resources, effectiveCosts)) return state;
 
-        let nextResources = payCost(state.resources, effectiveCosts);
-        if (decision.effects) {
-          nextResources = applyResourceDelta(nextResources, decision.effects);
-        const currentEra = getEraNumber(state.player.age);
-        nextResources = clampWithEraCap(nextResources, currentEra);
-        }
-
-        let nextFlags = [...state.flags];
-
-        if (decision.setsFlags) {
-          for (const f of decision.setsFlags) {
-            if (!nextFlags.includes(f)) nextFlags.push(f);
-          }
-        }
-        if (decision.clearsFlags) {
-          nextFlags = nextFlags.filter(
-            (f) => !decision.clearsFlags!.includes(f),
-          );
-        }
-
         const deltas = previewStatImpact(state.player, decision.statImpact);
-        const nextPlayer = applyStatImpact(state.player, decision.statImpact);
-
-        const nextBrainInfluence = { ...state.brainInfluence };
-        nextBrainInfluence[decision.hiddenStructure] =
-          (nextBrainInfluence[decision.hiddenStructure] ?? 0) + 1;
-
-        if (decision.isRescueCard) {
-          nextResources = resetToFloor(nextResources, 40);
-          nextFlags = nextFlags.filter(
-            (f) => !["uzalezniony", "samotny", "depresja"].includes(f),
-          );
-        }
-
-        if (decision.isDeathCard) {
-          return {
-            ...state,
-            player: nextPlayer,
-            resources: nextResources,
-            flags: nextFlags,
-            brainInfluence: nextBrainInfluence,
-            lastDecisionId: decision.id,
-            lastDeltas: deltas,
-            phase: "gameover",
-            deathReason: event.deathReason ?? DEFAULT_DEATH_REASON,
-          };
-        }
 
         return {
           ...state,
-          player: nextPlayer,
-          resources: nextResources,
-          flags: nextFlags,
-          brainInfluence: nextBrainInfluence,
           lastDecisionId: decision.id,
           lastDeltas: deltas,
           phase: "reveal",
+        };
+      }
+
+      case "DISMISS_REVEAL": {
+        return {
+          ...state,
+          phase: "scene",
+          lastDecisionId: null,
+          lastDeltas: null,
         };
       }
 
@@ -251,14 +210,72 @@ export function makeReducer(pool: GameEvent[]) {
           return { ...state, phase };
         }
 
+        let workingState = state;
+        if (state.phase === "reveal") {
+          const hit = findDecision(state.currentEventId, state.lastDecisionId, pool);
+          if (!hit) return state;
+          const { event, decision } = hit;
+
+          let nextResources = payCost(state.resources, decision.costs);
+          if (decision.effects) {
+            nextResources = applyResourceDelta(nextResources, decision.effects);
+            const currentEra = getEraNumber(state.player.age);
+            nextResources = clampWithEraCap(nextResources, currentEra);
+          }
+
+          let nextFlags = [...state.flags];
+          if (decision.setsFlags) {
+            for (const f of decision.setsFlags) {
+              if (!nextFlags.includes(f)) nextFlags.push(f);
+            }
+          }
+          if (decision.clearsFlags) {
+            nextFlags = nextFlags.filter(
+              (f) => !decision.clearsFlags!.includes(f),
+            );
+          }
+
+          const nextPlayer = applyStatImpact(state.player, decision.statImpact);
+          const nextBrainInfluence = { ...state.brainInfluence };
+          nextBrainInfluence[decision.hiddenStructure] =
+            (nextBrainInfluence[decision.hiddenStructure] ?? 0) + 1;
+
+          if (decision.isRescueCard) {
+            nextResources = resetToFloor(nextResources, 40);
+            nextFlags = nextFlags.filter(
+              (f) => !["uzalezniony", "samotny", "depresja"].includes(f),
+            );
+          }
+
+          if (decision.isDeathCard) {
+            return {
+              ...state,
+              player: nextPlayer,
+              resources: nextResources,
+              flags: nextFlags,
+              brainInfluence: nextBrainInfluence,
+              phase: "gameover",
+              deathReason: event.deathReason ?? DEFAULT_DEATH_REASON,
+            };
+          }
+
+          workingState = {
+            ...state,
+            player: nextPlayer,
+            resources: nextResources,
+            flags: nextFlags,
+            brainInfluence: nextBrainInfluence,
+            phase: "scene",
+          };
+        }
+
         const canAdvance =
-          state.phase === "reveal" ||
-          (state.phase === "scene" && state.currentEventId === null) ||
-          state.phase === "silent";
+          workingState.phase === "silent" ||
+          (workingState.phase === "scene" && workingState.lastDecisionId !== null) ||
+          (workingState.phase === "scene" && workingState.currentEventId === null);
         if (!canAdvance) return state;
 
         // Aplikuj efekty cichego eventu przed regeneracją.
-        let workingState = state;
         if (state.phase === "silent" && state.currentEventId) {
           const silentEv = pool.find((e) => e.id === state.currentEventId);
           if (silentEv?.statImpact) {

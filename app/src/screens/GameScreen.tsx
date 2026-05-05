@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function GameScreen({ game }: Props) {
-  const { state, currentEvent, chooseDecision, advanceTurn } = game;
+  const { state, currentEvent, chooseDecision, dismissReveal, advanceTurn } = game;
   const [showStats, setShowStats] = useState(false);
 
   const lastDecision =
@@ -47,10 +47,18 @@ export function GameScreen({ game }: Props) {
 
                 {/* deck: fixed height — never changes regardless of voices */}
                 <div className="shrink-0 h-[42vh]">
-                  <DecisionDeck
-                    decisions={currentEvent.decisions ?? []} resources={state.resources}
-                    onPick={chooseDecision}
-                  />
+                  {state.phase === 'scene' && state.lastDecisionId ? (
+                    <div className="h-full flex items-center justify-center">
+                      <Button variant="primary" onClick={advanceTurn} className="w-full max-w-sm justify-center">
+                        Następny rok →
+                      </Button>
+                    </div>
+                  ) : (
+                    <DecisionDeck
+                      decisions={currentEvent.decisions ?? []} resources={state.resources}
+                      onPick={chooseDecision}
+                    />
+                  )}
                 </div>
               </>
             ) : (
@@ -70,6 +78,7 @@ export function GameScreen({ game }: Props) {
           open={state.phase === 'reveal'}
           decision={lastDecision}
           deltas={state.lastDeltas}
+          onDismiss={dismissReveal}
           onAdvance={advanceTurn}
         />
       </div>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { CardType, Decision, Resources } from '@/types/game';
 import { canAfford } from '@/game/resources';
+import { STRUCTURES } from '@/data/structures';
 
 interface Props {
   decision: Decision;
@@ -39,6 +40,7 @@ const shakeStyles = `
 export function DecisionCard({ decision, resources, onPick }: Props) {
   const [isShaking, setIsShaking] = useState(false);
   const affordable = canAfford(resources, decision.costs);
+  const structureColor = STRUCTURES[decision.hiddenStructure].color;
 
   const handleClick = () => {
     if (!affordable) {
@@ -70,14 +72,14 @@ export function DecisionCard({ decision, resources, onPick }: Props) {
           {/* Color strip */}
           <div
             className="h-3 w-full shrink-0"
-            style={{ backgroundColor: TYPE_COLOR[decision.type] }}
+            style={{ backgroundColor: structureColor }}
           />
 
           {/* Centered body */}
           <div className="flex-1 px-5 py-4 flex flex-col items-center justify-center gap-3 min-h-0">
             <span
               className="font-display text-[10px] uppercase tracking-widest text-center"
-              style={{ color: TYPE_COLOR[decision.type] }}
+              style={{ color: structureColor }}
             >
               {TYPE_LABEL[decision.type]}
             </span>
@@ -87,7 +89,7 @@ export function DecisionCard({ decision, resources, onPick }: Props) {
           {/* Footer with costs */}
           <div
             className="px-5 py-3 border-t-2 border-border-subtle shrink-0 flex flex-col gap-2"
-            style={{ backgroundColor: `color-mix(in srgb, ${TYPE_COLOR[decision.type]} 12%, transparent)` }}
+            style={{ backgroundColor: `color-mix(in srgb, ${structureColor} 12%, transparent)` }}
           >
             {decision.costs.length > 0 && (
               <div className="flex flex-wrap gap-1 justify-center">

@@ -7,6 +7,7 @@ interface Props {
   open: boolean;
   decision: Decision | null;
   deltas: Partial<Record<TraitName, number>> | null;
+  onDismiss: () => void;
   onAdvance: () => void;
 }
 
@@ -33,7 +34,7 @@ const STRUCTURE_IMAGE: Record<StructureName, string> = {
   thalamus:    '/wzgorze.png',
 };
 
-export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
+export function RevealPanel({ open, decision, deltas, onDismiss, onAdvance }: Props) {
   if (!decision) return null;
 
   const meta = STRUCTURES[decision.hiddenStructure];
@@ -43,7 +44,7 @@ export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
     : [];
 
   return (
-    <BottomSheet open={open} maxHeight="90vh" transparent>
+    <BottomSheet open={open} maxHeight="90vh" transparent onClose={onDismiss}>
       <div className="flex flex-col min-h-0 pb-8">
         {/* Top: Character art emerging from top center */}
         <div className="flex justify-center -mb-16 md:-mb-32 relative z-10">
@@ -63,9 +64,16 @@ export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
         >
           {/* Nameplate */}
           <div
-            className="text-white px-4 py-3 -mx-5 md:-mx-6 mt-4 md:mt-0 border-b-2 border-border-subtle"
+            className="text-white px-4 py-3 -mx-5 md:-mx-6 mt-4 md:mt-0 border-b-2 border-border-subtle relative"
             style={{ backgroundColor: meta.color }}
           >
+            <button
+              onClick={onDismiss}
+              className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center text-white hover:bg-white/20 rounded"
+              aria-label="Zamknij"
+            >
+              ✕
+            </button>
             <p className="font-display text-xl leading-tight">{meta.label}</p>
             <p className="text-xs opacity-90 mt-0.5">{meta.archetype}</p>
           </div>

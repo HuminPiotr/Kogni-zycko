@@ -137,5 +137,6 @@ export type GameAction =
   | { type: 'LOAD_SAVE'; state: GameState }
   | { type: 'PICK_EVENT'; eventId: string }
   | { type: 'CHOOSE_DECISION'; decisionId: string }
+  | { type: 'DISMISS_REVEAL' }
   | { type: 'ADVANCE_TURN' }
   | { type: 'RESET' };

@@ -20,13 +20,30 @@ export function DecisionDeck({ decisions, resources, onPick }: Props) {
   const touchStartX = useRef(0);
   const count = decisions.length;
 
-  function next() { setActive((i) => (i + 1) % count); }
-  function prev() { setActive((i) => (i - 1 + count) % count); }
+  function next() {
+    setActive((i) => (i + 1) % count);
+  }
+  function prev() {
+    setActive((i) => (i - 1 + count) % count);
+  }
+
+  const cardViews = decisions
+    .map((d, cardIdx) => {
+      const stackPos = (cardIdx - active + count) % count;
+      return {
+        decision: d,
+        stackPos,
+        pos: STACK[Math.min(stackPos, STACK.length - 1)],
+      };
+    })
+    .sort((a, b) => b.stackPos - a.stackPos);
 
   return (
     <div
       className="relative h-full"
-      onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+      onTouchStart={(e) => {
+        touchStartX.current = e.touches[0].clientX;
+      }}
       onTouchEnd={(e) => {
         const dx = e.changedTouches[0].clientX - touchStartX.current;
         if (Math.abs(dx) < 40) return;
@@ -34,26 +51,27 @@ export function DecisionDeck({ decisions, resources, onPick }: Props) {
       }}
     >
       {/* Card fan */}
-      {decisions.map((d, cardIdx) => {
-        const stackPos = (cardIdx - active + count) % count;
-        const pos = STACK[Math.min(stackPos, STACK.length - 1)];
-
-        return (
-          <div
-            key={d.id}
-            className="absolute top-0 left-0 right-0 mx-auto transition-all duration-300 ease-out"
-            style={{
-              transform: `translateX(${pos.x}px) translateY(${pos.y}px) rotate(${pos.rotate}deg) scale(${pos.scale})`,
-              transformOrigin: 'bottom center',
-              zIndex: pos.z,
-              width: 'min(60vw, 230px)',
-              height: 'calc(100% - 52px)',
-            }}
-          >
-            <DecisionCard decision={d} resources={resources} onPick={onPick} />
-          </div>
-        );
-      })}
+      {cardViews.map(({ decision, stackPos, pos }) => (
+        <div
+          key={decision.id}
+          className="absolute top-0 left-0 right-0 mx-auto transition-all duration-300 ease-out"
+          style={{
+            transform: `translateX(${pos.x}px) translateY(${pos.y}px) rotate(${pos.rotate}deg) scale(${pos.scale})`,
+            transformOrigin: 'bottom center',
+            zIndex: pos.z,
+            width: 'min(60vw, 230px)',
+            height: 'calc(100% - 52px)',
+            pointerEvents: stackPos === 0 ? 'auto' : 'none',
+          }}
+          aria-hidden={stackPos !== 0}
+        >
+          <DecisionCard
+            decision={decision}
+            resources={resources}
+            onPick={stackPos === 0 ? onPick : () => undefined}
+          />
+        </div>
+      ))}
 
       {/* Dot indicator + arrows */}
       <div className="absolute bottom-3 left-0 right-0 z-40 flex items-center justify-center gap-3">

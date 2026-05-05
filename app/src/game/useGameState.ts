@@ -10,6 +10,7 @@ export interface UseGameState {
   startNewLife: () => void;
   continueSavedRun: () => void;
   chooseDecision: (decisionId: string) => void;
+  dismissReveal: () => void;
   advanceTurn: () => void;
   reset: () => void;
   hasSavedRun: boolean;
@@ -47,6 +48,10 @@ export function useGameState(): UseGameState {
     dispatch({ type: 'CHOOSE_DECISION', decisionId });
   }, []);
 
+  const dismissReveal = useCallback(() => {
+    dispatch({ type: 'DISMISS_REVEAL' });
+  }, []);
+
   const advanceTurn = useCallback(() => {
     dispatch({ type: 'ADVANCE_TURN' });
   }, []);
@@ -67,6 +72,7 @@ export function useGameState(): UseGameState {
     startNewLife,
     continueSavedRun,
     chooseDecision,
+    dismissReveal,
     advanceTurn,
     reset,
     hasSavedRun: Boolean(loadSave()),
