@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import type { Decision, Resources } from '@/types/game';
 import { DecisionCard } from '@/components/DecisionCard';
+import { useSound } from '@/hooks/useSound';
 
 interface Props {
   decisions: Decision[];
@@ -19,9 +20,10 @@ export function DecisionDeck({ decisions, resources, onPick }: Props) {
   const [active, setActive] = useState(0);
   const touchStartX = useRef(0);
   const count = decisions.length;
+  const playScroll = useSound('scroll');
 
-  function next() { setActive((i) => (i + 1) % count); }
-  function prev() { setActive((i) => (i - 1 + count) % count); }
+  function next() { playScroll(); setActive((i) => (i + 1) % count); }
+  function prev() { playScroll(); setActive((i) => (i - 1 + count) % count); }
 
   return (
     <div

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { VoiceLine } from '@/types/game';
 import { STRUCTURES } from '@/data/structures';
+import { useSound } from '@/hooks/useSound';
 
 interface Props {
   voices: VoiceLine[];
@@ -10,12 +11,16 @@ interface Props {
 export function VoicesInline({ voices, eventId }: Props) {
   const [revealed, setRevealed] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const playKikanie = useSound('kikanie');
 
   useEffect(() => {
     setRevealed(0);
     if (!voices.length) return;
     const timers = voices.map((_, i) =>
-      setTimeout(() => setRevealed((n) => n + 1), 700 + i * 1300),
+      setTimeout(() => {
+        setRevealed((n) => n + 1);
+        playKikanie();
+      }, 700 + i * 1300),
     );
     return () => timers.forEach(clearTimeout);
   }, [eventId]);

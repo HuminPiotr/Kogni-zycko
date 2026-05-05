@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { CardType, Decision, Resources } from '@/types/game';
 import { canAfford } from '@/game/resources';
+import { useSound } from '@/hooks/useSound';
 
 interface Props {
   decision: Decision;
@@ -39,6 +40,7 @@ const shakeStyles = `
 export function DecisionCard({ decision, resources, onPick }: Props) {
   const [isShaking, setIsShaking] = useState(false);
   const affordable = canAfford(resources, decision.costs);
+  const playSwich = useSound('swich');
 
   const handleClick = () => {
     if (!affordable) {
@@ -46,6 +48,7 @@ export function DecisionCard({ decision, resources, onPick }: Props) {
       setTimeout(() => setIsShaking(false), 400);
       return;
     }
+    playSwich();
     onPick(decision.id);
   };
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { UseGameState } from '@/game/useGameState';
+import { useSound } from '@/hooks/useSound';
 import { StatusBar } from '@/components/StatusBar';
 import { SceneView } from '@/components/SceneView';
 import { DecisionDeck } from '@/components/DecisionDeck';
@@ -78,10 +79,11 @@ export function GameScreen({ game }: Props) {
 }
 
 function EmptyYear({ onAdvance }: { onAdvance: () => void }) {
+  const playPrzemijanie = useSound('przemijanie');
   return (
     <div className="flex-1 flex flex-col items-center justify-center px-6 gap-6 text-center">
       <p className="text-lg opacity-60">Rok minął bez szczególnych zdarzeń.</p>
-      <Button variant="secondary" onClick={onAdvance} className="w-full max-w-sm justify-center">
+      <Button variant="secondary" onClick={() => { playPrzemijanie(); onAdvance(); }} className="w-full max-w-sm justify-center">
         Następny rok →
       </Button>
     </div>

@@ -2,6 +2,7 @@ import type { Decision, ResourceName, StructureName, TraitName } from '@/types/g
 import { STRUCTURES } from '@/data/structures';
 import { Button } from '@/components/ui/Button';
 import { BottomSheet } from '@/components/BottomSheet';
+import { useSound } from '@/hooks/useSound';
 
 interface Props {
   open: boolean;
@@ -34,6 +35,8 @@ const STRUCTURE_IMAGE: Record<StructureName, string> = {
 };
 
 export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
+  const playPrzemijanie = useSound('przemijanie');
+
   if (!decision) return null;
 
   const meta = STRUCTURES[decision.hiddenStructure];
@@ -111,7 +114,7 @@ export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
             )}
           </div>
 
-          <Button variant="primary" onClick={onAdvance} className="w-full justify-center mt-6">
+          <Button variant="primary" onClick={() => { playPrzemijanie(); onAdvance(); }} className="w-full justify-center mt-6">
             Następny rok →
           </Button>
         </div>
