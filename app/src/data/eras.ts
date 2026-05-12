@@ -46,6 +46,5 @@ Twoje fundamenty zostały właśnie wylane. Nie wiesz jeszcze co z nich wyrośni
 
 To nie wada. To wersja testowa. Niestety — działająca.`,
   3: `Kora przedczołowa jest nareszcie online. Mniej więcej. Masz teraz zdolność do myślenia o konsekwencjach, planowania i regulacji impulsów — narzędzia których przez poprzednie ery nie miałeś.
-
 Wzorce zachowań są już głęboko zapisane. Gra zaczyna się na poważnie.`,
 };
