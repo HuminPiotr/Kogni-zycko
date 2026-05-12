@@ -50,7 +50,7 @@ export function EraScreen({ era, state, onContinue }: Props) {
     <main
       className="h-dvh relative flex flex-col overflow-hidden"
       style={bg ? {
-        backgroundImage: `url('/Ery/${bg}.png')`,
+        backgroundImage: `url('${import.meta.env.BASE_URL}Ery/${bg}.png')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       } : { backgroundColor: 'var(--color-canvas)' }}

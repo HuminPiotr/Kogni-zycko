@@ -25,13 +25,14 @@ const RESOURCE_ICON: Record<ResourceName, string> = {
   willpower: '🧠',
 };
 
+const base = import.meta.env.BASE_URL;
 const STRUCTURE_IMAGE: Record<StructureName, string> = {
-  amygdala:    '/cialo_migdalowate.png',
-  pfc:         '/kora_przedczolowa.png',
-  nacc:        '/jadro_ogoniaste.png',
-  hippocampus: '/hipokamp.png',
-  insula:      '/wyspa.png',
-  thalamus:    '/wzgorze.png',
+  amygdala:    `${base}cialo_migdalowate.png`,
+  pfc:         `${base}kora_przedczolowa.png`,
+  nacc:        `${base}jadro_ogoniaste.png`,
+  hippocampus: `${base}hipokamp.png`,
+  insula:      `${base}wyspa.png`,
+  thalamus:    `${base}wzgorze.png`,
 };
 
 export function RevealPanel({ open, decision, deltas, onAdvance }: Props) {
