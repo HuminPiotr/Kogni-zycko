@@ -2,11 +2,12 @@ import { useRef, useCallback } from 'react';
 
 type SoundName = 'kikanie' | 'przemijanie' | 'scroll' | 'swich';
 
+const base = import.meta.env.BASE_URL;
 const SOUND_PATHS: Record<SoundName, string> = {
-  kikanie:    '/dzwieki/kikanie.mp3',
-  przemijanie: '/dzwieki/przemijanie lat.mp3',
-  scroll:     '/dzwieki/scroll.mp3',
-  swich:      '/dzwieki/swich.mp3',
+  kikanie:    `${base}dzwieki/kikanie.mp3`,
+  przemijanie: `${base}dzwieki/przemijanie lat.mp3`,
+  scroll:     `${base}dzwieki/scroll.mp3`,
+  swich:      `${base}dzwieki/swich.mp3`,
 };
 
 export function useSound(name: SoundName) {
