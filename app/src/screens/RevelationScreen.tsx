@@ -19,6 +19,35 @@ function traitDesc(value: number, low: string, high: string): string {
   return value >= 50 ? high : low;
 }
 
+const PSYCH_QUOTES: Record<TraitName, [string, string]> = {
+  n: [
+    'Reakcje emocjonalne są tłumione lub nieobecne. Trudno ocenić czy to opanowanie, czy odcięcie.',
+    'Wykazuje podwyższoną reaktywność emocjonalną. Wrażliwy — ale kosztownie.',
+  ],
+  e: [
+    'Zamknięty, obserwujący. Kontakt inicjuje tylko gdy uznaje to za konieczne.',
+    'Energiczny, poszukuje kontaktu. Mózg który potrzebuje audytorium.',
+  ],
+  o: [
+    'Trzyma się znanych schematów. Pragmatyzm graniczący z oporem wobec zmiennych.',
+    'Wyraźna ciekawość mechanizmów — lubi wiedzieć jak rzeczy działają od środka. Niekoniecznie po to by je naprawić.',
+  ],
+  a: [
+    'Relacje traktuje instrumentalnie. Nie jest to wadą — jest konsekwencją.',
+    'Silna orientacja na relacje. Empatia funkcjonuje jako zasada organizująca.',
+  ],
+  c: [
+    'Impulsywny. Decyzje podejmuje zanim pytanie zdąży wybrzmieć.',
+    'Zdolność do skupienia i dyscypliny — w wybranych obszarach.',
+  ],
+};
+
+function psychologistQuote(big5: Big5): string {
+  const sorted = (Object.entries(big5) as [TraitName, number][]).sort((a, b) => b[1] - a[1]);
+  const [topTrait, topVal] = sorted[0];
+  return `„${PSYCH_QUOTES[topTrait][topVal >= 50 ? 1 : 0]}"`;
+}
+
 export function RevelationScreen({ big5, age, onContinue }: Props) {
   return (
     <main className="min-h-screen bg-canvas bg-polka flex items-center justify-center px-4 py-8">
@@ -29,8 +58,7 @@ export function RevelationScreen({ big5, age, onContinue }: Props) {
           </p>
           <h1 className="font-display text-3xl">Wiek: {age} lat</h1>
           <p className="mt-2 text-sm text-text-secondary leading-relaxed">
-            „Michał jest inteligentny i charyzmatyczny. Wykazuje ograniczoną empatię i
-            nietypową reakcję na ból innych."
+            {psychologistQuote(big5)}
           </p>
         </header>
 

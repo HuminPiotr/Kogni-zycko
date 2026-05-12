@@ -25,6 +25,13 @@
   --color-text-disabled: #b0a8c0;
   --color-text-on-dark: #faf5e0;
 
+  /* === CARD TYPES === */
+  --color-card-rational: #6366f1;
+  --color-card-active: #059669;
+  --color-card-empathic: #d97706;
+  --color-card-impulsive: #c026d3;
+  --color-card-avoidant: #64748b;
+
   /* === BRAIN STRUCTURES === */
   --color-amygdala: #ec1763;
   --color-pfc: #5568af;

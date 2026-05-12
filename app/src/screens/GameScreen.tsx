@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import type { UseGameState } from '@/game/useGameState';
-import { useSound } from '@/hooks/useSound';
 import { StatusBar } from '@/components/StatusBar';
 import { SceneView } from '@/components/SceneView';
 import { DecisionDeck } from '@/components/DecisionDeck';
@@ -8,7 +7,6 @@ import { RevealPanel } from '@/components/RevealPanel';
 import { SilentPanel } from '@/components/SilentPanel';
 import { VoicesInline } from '@/components/VoicesInline';
 import { StatsSheet } from '@/components/StatsSheet';
-import { Button } from '@/components/ui/Button';
 
 interface Props {
   game: UseGameState;
@@ -35,9 +33,8 @@ export function GameScreen({ game }: Props) {
           <SilentPanel event={currentEvent} onAdvance={advanceTurn} />
         ) : (
           <main className="flex-1 flex flex-col overflow-hidden px-3 py-2 gap-3 min-h-0">
-            {currentEvent ? (
+            {currentEvent && (
               <>
-                {/* scene + voices: fills available space, voices scroll internally */}
                 <div className="flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto">
                   <SceneView event={currentEvent} />
                   <VoicesInline
@@ -45,8 +42,6 @@ export function GameScreen({ game }: Props) {
                     eventId={currentEvent.id}
                   />
                 </div>
-
-                {/* deck: fixed height — never changes regardless of voices */}
                 <div className="shrink-0 h-[42vh]">
                   <DecisionDeck
                     decisions={currentEvent.decisions ?? []} resources={state.resources}
@@ -54,8 +49,6 @@ export function GameScreen({ game }: Props) {
                   />
                 </div>
               </>
-            ) : (
-              <EmptyYear onAdvance={advanceTurn} />
             )}
           </main>
         )}
@@ -74,18 +67,6 @@ export function GameScreen({ game }: Props) {
           onAdvance={advanceTurn}
         />
       </div>
-    </div>
-  );
-}
-
-function EmptyYear({ onAdvance }: { onAdvance: () => void }) {
-  const playPrzemijanie = useSound('przemijanie');
-  return (
-    <div className="flex-1 flex flex-col items-center justify-center px-6 gap-6 text-center">
-      <p className="text-lg opacity-60">Rok minął bez szczególnych zdarzeń.</p>
-      <Button variant="secondary" onClick={() => { playPrzemijanie(); onAdvance(); }} className="w-full max-w-sm justify-center">
-        Następny rok →
-      </Button>
     </div>
   );
 }

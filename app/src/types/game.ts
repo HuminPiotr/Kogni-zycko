@@ -114,7 +114,7 @@ export interface GameEvent {
 
 // ===== Stan gry =====
 
-export type GamePhase = 'start' | 'scene' | 'silent' | 'reveal' | 'revelation' | 'era_summary' | 'gameover';
+export type GamePhase = 'start' | 'scene' | 'silent' | 'reveal' | 'era_summary' | 'gameover';
 
 export interface GameState {
   phase: GamePhase;

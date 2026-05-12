@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { useGameState } from '@/game/useGameState';
 import { StartScreen } from '@/screens/StartScreen';
 import { GameScreen } from '@/screens/GameScreen';
-import { EndScreen } from '@/screens/EndScreen';
-import { RevelationScreen } from '@/screens/RevelationScreen';
+import { SummaryScreen } from '@/screens/SummaryScreen';
 import { EraScreen } from '@/screens/EraScreen';
 import { DebugPanel } from '@/components/DebugPanel';
 import { Sandbox } from '@/screens/Sandbox';
@@ -24,9 +23,9 @@ function useHashRoute(): string {
 export default function App() {
   const route = useHashRoute();
   const game = useGameState();
-  if (route === 'sandbox') return <Sandbox />;
+  if (route === 'sandbox' && import.meta.env.DEV) return <Sandbox />;
 
-  const { phase, player } = game.state;
+  const { phase } = game.state;
 
   if (phase === 'start') {
     return (
@@ -36,7 +35,7 @@ export default function App() {
           onContinue={game.continueSavedRun}
           hasSavedRun={game.hasSavedRun}
         />
-        <DebugPanel state={game.state} />
+        {import.meta.env.DEV && <DebugPanel state={game.state} />}
       </>
     );
   }
@@ -44,21 +43,8 @@ export default function App() {
   if (phase === 'gameover') {
     return (
       <>
-        <EndScreen state={game.state} onNewLife={game.startNewLife} />
-        <DebugPanel state={game.state} />
-      </>
-    );
-  }
-
-  if (phase === 'revelation') {
-    return (
-      <>
-        <RevelationScreen
-          big5={player.big5}
-          age={player.age}
-          onContinue={game.advanceTurn}
-        />
-        <DebugPanel state={game.state} />
+        <SummaryScreen state={game.state} onNewLife={game.reset} />
+        {import.meta.env.DEV && <DebugPanel state={game.state} />}
       </>
     );
   }
@@ -68,8 +54,8 @@ export default function App() {
     const era = getEraByNumber(eraNumber)!;
     return (
       <>
-        <EraScreen era={era} onContinue={game.advanceTurn} />
-        <DebugPanel state={game.state} />
+        <EraScreen era={era} state={game.state} onContinue={game.advanceTurn} />
+        {import.meta.env.DEV && <DebugPanel state={game.state} />}
       </>
     );
   }
@@ -77,7 +63,7 @@ export default function App() {
   return (
     <>
       <GameScreen game={game} />
-      <DebugPanel state={game.state} />
+      {import.meta.env.DEV && <DebugPanel state={game.state} />}
     </>
   );
 }

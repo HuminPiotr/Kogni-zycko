@@ -215,7 +215,7 @@ export function makeReducer(pool: GameEvent[]) {
             lastDecisionId: decision.id,
             lastDeltas: deltas,
             phase: "gameover",
-            deathReason: event.deathReason ?? DEFAULT_DEATH_REASON,
+            deathReason: decision.flavorReveal ?? event.deathReason ?? DEFAULT_DEATH_REASON,
           };
         }
 
@@ -239,16 +239,6 @@ export function makeReducer(pool: GameEvent[]) {
           const eraNum = getEraNumber(state.player.age + 1);
           const clamped = clampWithEraCap(refreshed, eraNum);
           return pickNextEvent({ ...state, resources: clamped }, pool);
-        }
-
-        // Z ekranu rewelacji Big5 — nie inkrementuj wieku, po prostu idź dalej.
-        if (state.phase === "revelation") {
-          const phase = state.currentEventId
-            ? pool.find((e) => e.id === state.currentEventId)?.type === "silent"
-              ? "silent"
-              : "scene"
-            : "scene";
-          return { ...state, phase };
         }
 
         const canAdvance =
@@ -321,14 +311,7 @@ export function makeReducer(pool: GameEvent[]) {
           return { ...advanced, phase: "gameover", deathReason: null };
         }
 
-        const withNextEvent = pickNextEvent(advanced, pool);
-
-        // Poprzedni event wymagał rewelacji → wejdź w fazę 'revelation' z już wybranym eventem.
-        if (prevEvent?.isRevelation) {
-          return { ...withNextEvent, phase: "revelation" };
-        }
-
-        return withNextEvent;
+        return pickNextEvent(advanced, pool);
       }
 
       default:

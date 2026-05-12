@@ -1,34 +1,32 @@
-import type { Era } from '@/types/game';
+import type { Era } from "@/types/game";
 
 export const ERAS: Era[] = [
   {
-    roman: 'I',
-    name: 'Early Access',
+    roman: "I",
+    name: "Dzieniństwo",
     range: [0, 12],
-    vibe: 'Formowanie fundamentów. Dzieciństwo, w którym odkrywasz, że Twój mózg działa inaczej.',
+    vibe: "Formowanie fundamentów. Dzieciństwo, w którym odkrywasz jak działa Twój mózg.",
   },
   {
-    roman: 'II',
-    name: 'Open Beta',
-    range: [13, 18],
-    vibe: 'Testowanie granic. Hormony, presja rówieśnicza, pierwsze poważne konsekwencje.',
+    roman: "II",
+    name: "Nastolatek",
+    range: [13, 21],
+    vibe: "Testowanie granic. Hormony, presja rówieśnicza, pierwsze poważne konsekwencje.",
   },
   {
-    roman: 'III',
-    name: 'Release 1.0',
-    range: [19, 25],
-    vibe: 'Ostateczna weryfikacja. Decyzje o życiu i śmierci. Koniec gry.',
+    roman: "III",
+    name: "Dorosłość",
+    range: [22, 80],
+    vibe: "Ostateczna weryfikacja. Decyzje o życiu i śmierci. Konsekwencje.",
   },
 ];
 
 export function getEraNumber(age: number): number {
-  for (const era of ERAS) {
-    if (age >= era.range[0] && age <= era.range[1]) {
-      const index = ERAS.indexOf(era);
-      return index + 1;
-    }
+  for (let i = 0; i < ERAS.length; i++) {
+    const era = ERAS[i];
+    if (age >= era.range[0] && age <= era.range[1]) return i + 1;
   }
-  return 3; // fallback to Era III for age > 25
+  return 3;
 }
 
 export function getEraByNumber(num: number): Era | null {
@@ -41,7 +39,13 @@ export function getWillpowerCapForEra(eraNumber: number): number {
 }
 
 export const ERA_SUMMARIES: Record<number, string> = {
-  1: '[Era I — Early Access. Formowanie fundamentów. AI wygeneruje tutaj historię na podstawie twoich wyborów]',
-  2: '[Era II — Open Beta. Testowanie granic. AI wygeneruje tutaj historię na podstawie twoich wyborów]',
-  3: '[Era III — Release 1.0. Ostateczna weryfikacja. AI wygeneruje tutaj historię na podstawie twoich wyborów]',
+  1: `Pierwsze lata to budowanie oprogramowania z materiałów, które dostałeś bez możliwości zwrotu. Hipokamp archiwizuje wszystko — nie pyta czy chcesz pamiętać. Ciało migdałowate uczy się czego się bać, zanim kora przedczołowa zdążyła zrozumieć co to strach.
+
+Twoje fundamenty zostały właśnie wylane. Nie wiesz jeszcze co z nich wyrośnie.`,
+  2: `Kora przedczołowa — ta część mózgu która mówi „poczekaj" i „zastanów się" — skończy się rozwijać dopiero po dwudziestym piątym roku życia. Przez te lata decyzje podejmujesz głównie ciałem migdałowatym i jądrem półleżącym. To dlatego wszystko wydaje się ważniejsze i groźniejsze niż jest.
+
+To nie wada. To wersja testowa. Niestety — działająca.`,
+  3: `Kora przedczołowa jest nareszcie online. Mniej więcej. Masz teraz zdolność do myślenia o konsekwencjach, planowania i regulacji impulsów — narzędzia których przez poprzednie ery nie miałeś.
+
+Wzorce zachowań są już głęboko zapisane. Gra zaczyna się na poważnie.`,
 };

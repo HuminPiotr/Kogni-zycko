@@ -25,14 +25,6 @@ export function useGameState(): UseGameState {
     writeSave(state);
   }, [state]);
 
-  // Zostaw czysty 'gameover' w pamięci tylko do czasu resetu — wyczyść zapis.
-  useEffect(() => {
-    if (state.phase === 'gameover') {
-      // Nie czyścimy natychmiast — chcemy, żeby odświeżenie strony pokazało
-      // ekran końcowy. Zapis zniknie dopiero przy starcie nowego życia.
-    }
-  }, [state.phase]);
-
   const startNewLife = useCallback(() => {
     clearSave();
     dispatch({ type: 'NEW_LIFE' });

@@ -18,11 +18,11 @@ const TYPE_LABEL: Record<CardType, string> = {
 };
 
 const TYPE_COLOR: Record<CardType, string> = {
-  rational: 'var(--color-pfc)',
-  active: 'var(--color-caudate)',
-  empathic: 'var(--color-insula)',
-  impulsive: 'var(--color-amygdala)',
-  avoidant: 'var(--color-sunset)',
+  rational: 'var(--color-card-rational)',
+  active: 'var(--color-card-active)',
+  empathic: 'var(--color-card-empathic)',
+  impulsive: 'var(--color-card-impulsive)',
+  avoidant: 'var(--color-card-avoidant)',
 };
 
 const shakeStyles = `
